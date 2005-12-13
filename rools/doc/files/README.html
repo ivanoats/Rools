@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Tue Dec 13 12:15:33 Central Standard Time 2005</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="../classes/Rools.html">Rools</a> &#8212; A pure ruby rules-engine</h1>
+<p>
+<a href="../classes/Rools.html">Rools</a> is a rules engine for abstracting
+business logic and program-flow. It&#8217;s ideally suited to processing
+applications where the business logic undergoes frequent modification.
+</p>
+<h2>RubyForge</h2>
+<pre>
+        This documentation can be found at http://rools.rubyforge.org
+        The project page can be found at http://rubyforge.org/projects/rools
+</pre>
+<h2>Example</h2>
+<pre>
+        require 'rools'
+
+        rules = Rools::RuleSet.new do
+
+                rule 'Is it a String?' do
+                        parameter String
+                        consequence { puts &quot;Yes, it's a String&quot; }
+                end
+
+                rule 'Is it a country?' do
+                        condition { Country.find_all.collect { |c| c.name }.include?(string) }
+                        consequence { puts &quot;Yes, #{string} is in the country list&quot;}
+                end
+        end
+
+        rules.assert 'Japan'
+
+        &gt; Yes, it's a String
+        &gt; Yes, Japan is in the country list
+</pre>
+<p>
+You can also store your rules in a seperate file, and pass a path to <a
+href="../classes/Rools/RuleSet.html#M000023">Rools::RuleSet#new</a> instead
+of a block. e.g.
+</p>
+<pre>
+        require 'rools'
+
+        rules = Rools::RuleSet.new 'countries.rules'
+        rules.assert 'Japan'
+</pre>
+<h3>Parameter</h3>
+<p>
+The <tt>parameter</tt> method accepts Constants and/or Symbols. Every
+constant in the list is called with :is_a? on the asserted object, while
+every symbol in the list is passed to :respond_to? on the asserted object.
+In other words:
+</p>
+<pre>
+        parameter Person, :name, :occupation
+</pre>
+<p>
+Is effectively the same as:
+</p>
+<pre>
+        condition { object.is_a?(Person) &amp;&amp; object.responds_to?(:name) &amp;&amp; object.responds_to?(:occupation) }
+</pre>
+<p>
+The <tt>parameter</tt> method is obviously preferred for it&#8217;s
+conciseness, and because the working set of rules can be optimized to only
+include for evaluation those rules whose parameters match the asserted
+object.
+</p>
+<h3>Condition</h3>
+<p>
+The <tt>condition</tt> method is used to evaluate the asserted object. You
+can have any number of conditions. <a
+href="../classes/Rools/DefaultParameterProc.html#M000020">Rools::DefaultParameterProc#method_missing</a>
+is used so that you can refer to the asserted object by practically any
+<tt>lower_case_underscore</tt> name. Generally you&#8217;ll want to use
+names that make sense in the context of the <tt>Rule</tt>, and be
+consistent through-out the <tt>Rule</tt>. Here&#8217;s an example:
+</p>
+<pre>
+        rule 'Programmer' do
+                condition { person.occupation == 'coder' }
+                consequence { puts &quot;#{person} is a coder&quot; }
+        end
+</pre>
+<p>
+Here&#8217;s an example of something you might want to avoid:
+</p>
+<pre>
+        rule 'Manager' do
+                condition { obj.occupation == 'manager' }
+                consequence { puts &quot;#{manager} is a manager&quot; }
+        end
+</pre>
+<p>
+Both examples are syntactically correct, but the first is easier to read.
+</p>
+<h3>Consequence</h3>
+<p>
+A consequence is a block of code that executes if the conditions evaluate
+to true. You can have one or more consequences. In the above examples
+we&#8217;re doing something simple such as just printing something to the
+string in the consequences. Usually the consequence is something that will
+actually change the state of the asserted object in some way however.
+</p>
+<pre>
+        rule 'User' do
+                parameter User, :failed_login_attempts
+                condition { user.failed_login_attempts &gt; 3 }
+                consequence { user.lockout! }
+        end
+</pre>
+<p>
+Nevermind that this is application logic you&#8217;d probably keep in your
+domain model. The intent isn&#8217;t to show you best-practices here, only
+to make the point that consequences usually modify state.
+</p>
+<h3>Assert</h3>
+<p>
+What happens if in a <tt>consequence</tt>, you need to create other objects
+though? You can use the <tt>assert</tt> method in a <tt>consequence</tt>.
+Consider the following:
+</p>
+<pre>
+        rule 'Message is Referral?' do
+                parameter :subject, :body
+
+                condition { message.subject == 'Sales Referral' }
+                condition { message.body =~ /^How\sdid\syou\shear\sabout\sbrand\sX\?/m }
+
+                consequence { assert Referral.new(message) }
+        end
+
+        rule 'Referral is Large Account' do
+                parameter Referral
+
+                condition { referral.annual_sales_volume &gt; 100_000_000 }
+                consequence { referral.prioritize :high }
+        end
+</pre>
+<p>
+The first rule asserted a new <tt>Referral</tt> object into the RuleSet.
+You could also assert into a completey different RuleSet however if you
+need to split them up to keep them manageable:
+</p>
+<pre>
+        consequence { RuleSet.new('referral.rules').assert Referral.new(message) }
+</pre>
+<h3>Extend</h3>
+<p>
+Problem: You have a sequence of rules that depend on each other:
+</p>
+<pre>
+        rule 'Valid User' do
+                condition { user.valid? }
+                condition { user.password.size &gt; 6 }
+                consequence { puts &quot;#{user} is valid&quot; }
+        end
+
+        rule 'Active User' do
+                condition { user.valid? }
+                condition { user.password.size &gt; 6 }
+                condition { user.last_logon &lt; 1.month.ago }
+                condition do
+                        user.logins_for(:january).inject(0) do |sum, duration|
+                                sum += duration
+                        end &gt; 5.minutes
+                end
+
+                consequence { puts &quot;#{user} is active&quot; }
+        end
+
+        rule 'Administrative User' do
+                condition { user.valid? }
+                condition { user.password.size &gt; 6 }
+                condition { user.last_logon &lt; 1.month.ago }
+                condition do
+                        user.logins_for(:january).inject(0) do |sum, duration|
+                                sum += duration
+                        end &gt; 5.minutes
+                end
+                condition { user.admin? }
+
+                consequence { puts &quot;#{user} is an admin&quot; }
+        end
+</pre>
+<p>
+This chain of rules quickly becomes rather cumbersome. To help, you can use
+the <tt>extend</tt> -&gt; <tt>with</tt> syntax to enable chaining and
+branching rules. The same example as above could also be written this way:
+(extend rule_name with new_rule_name)
+</p>
+<pre>
+        rule 'Valid User' do
+                condition { user.valid? }
+                condition { user.password.size &gt; 6 }
+                consequence { puts &quot;#{user} is valid&quot; }
+        end
+
+        extend('Valid User').with('Active User') do
+                condition { user.last_logon &lt; 1.month.ago }
+                condition do
+                        user.logins_for(:january).inject(0) do |sum, duration|
+                                sum += duration
+                        end &gt; 5.minutes
+                end
+
+                consequence { puts &quot;#{user} is active&quot; }
+        end
+
+        extend('Active User').with('Administrative User') do
+                condition { user.admin? }
+                consequence { puts &quot;#{user} is an admin&quot; }
+        end
+</pre>
+<p>
+In this simplistic example, it saves 11 lines (about a third), but in more
+complex examples you could easily end up with half the code. The first
+example could perform up to 11 condition checks for a valid, active, admin
+user. Because the extend syntax defers adding the dependent rules to the
+working set until the extended rule evaluates to true, the extend syntax
+would do the same work with only 5 comparisons (less than half the work).
+For expensive operations, such as file operations, regular expressions, or
+database calls, the extend syntax is potentially several times faster than
+the &quot;brute-force&quot; method, and the difference only becomes greater
+the larger your RuleSet.
+</p>
+<p>
+It&#8217;s important to remember that you can only extend rules within the
+same <a href="../classes/Rools/RuleSet.html">Rools::RuleSet</a>.
+</p>
+<p>
+You can also <tt>extend</tt> a target rule <tt>with</tt> several additional
+rules at once with a block:
+</p>
+<pre>
+        extend('Active User') do
+                with 'Administrative User' do
+                        condition { user.admin? }
+                        consequence { puts &quot;#{user} is an admin&quot; }
+                end
+
+                with 'Customer User' do
+                        condition { user.customer? }
+                        consequence { puts &quot;#{user} is a customer&quot; }
+                end
+        end
+</pre>
+<p>
+Rule names are case-insensitive. It&#8217;s important to give good
+descriptive names to rules as not only does it make maintaining them much
+easier, but it also gives you better logging, and makes <tt>extend</tt>
+calls easier to follow.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

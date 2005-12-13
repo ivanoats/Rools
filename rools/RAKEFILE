@@ -1,0 +1,67 @@
+require 'rubygems'
+require 'rake'
+require 'rake/rdoctask'
+require 'rake/gempackagetask'
+require 'rake/contrib/rubyforgepublisher'
+require 'pscp'
+
+PACKAGE_VERSION = '0.1.3'
+
+PACKAGE_FILES = FileList[
+  'README',
+  'CHANGELOG',
+  'RAKEFILE',
+  'lib/rools.rb',
+  'lib/**/*.rb'
+].to_a
+
+PROJECT = 'rools'
+
+ENV['RUBYFORGE_USER'] = "ssmoot@rubyforge.org"
+ENV['RUBYFORGE_PROJECT'] = "/var/www/gforge-projects/#{PROJECT}"
+
+desc 'Release Files'
+task :default => [:rdoc, :gem]
+
+# Generate the RDoc documentation
+rd = Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_dir = 'doc'
+  rdoc.title = 'Rools -- A Pure Ruby Rules Engine'
+  rdoc.options << '--line-numbers --inline-source --main README'
+  rdoc.rdoc_files.include(PACKAGE_FILES)
+end
+
+gem_spec = Gem::Specification.new do |s|
+  s.platform = Gem::Platform::RUBY
+  s.name = PROJECT
+  s.summary = "A Rules Engine written in Ruby"
+  s.description = "Can be used for program-flow, ideally suited to processing applications"
+  s.version = PACKAGE_VERSION
+  
+  s.authors = 'Sam Smoot', 'Scott Bauer'
+  s.email = 'ssmoot@gmail.com; bauer.mail@gmail.com'
+  s.rubyforge_project = PROJECT
+  s.homepage = 'http://substantiality.net'
+  
+  s.files = PACKAGE_FILES
+  
+  s.require_path = 'lib'
+  s.requirements << 'none'
+  s.autorequire = 'rools'
+  
+  s.has_rdoc = true
+  s.rdoc_options << '--line-numbers' << '--inline-source' << '--main' << 'README'
+  s.extra_rdoc_files = rd.rdoc_files.reject { |fn| fn =~ /\.rb$/ }.to_a
+end
+
+Rake::GemPackageTask.new(gem_spec) do |p|
+  p.gem_spec = gem_spec
+  p.need_tar = true
+  p.need_zip = true
+end
+
+desc "Publish RDOC to RubyForge"
+task :rubyforge => [:rdoc, :gem] do
+  Rake::SshDirPublisher.new(ENV['RUBYFORGE_USER'], ENV['RUBYFORGE_PROJECT'], 'doc').upload
+  Rake::SshFilePublisher.new(ENV['RUBYFORGE_USER'], ENV['RUBYFORGE_PROJECT'], 'pkg', "#{PROJECT}-#{PACKAGE_VERSION}.gem").upload  
+end
