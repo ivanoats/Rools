@@ -1,12 +1,14 @@
 require 'rools/errors'
 require 'rools/rule'
+require 'rools/base'
 
 module Rools
-  class RuleSet
+  class RuleSet < Base
   
     PASS = :pass
     FAIL = :fail
     
+  
     # You can pass a set of Rools::Rules with a block parameter,
     # or you can pass a file-path to evaluate.
     def initialize(file = nil, &b)
@@ -84,12 +86,13 @@ module Rools
           
           # the loop condition is reset to break by default after every iteration
           matches = false
-          
+          logger.debug("available rules: #{available_rules.size.to_s}") if logger
           available_rules.each do |rule|
             # RuleCheckErrors are caught and swallowed and the rule that
             # raised the error is removed from the working-set.
             begin
               if rule.conditions_match?(obj)
+                logger.debug("rule #{rule} matched") if logger
                 matches = true
                 
                 # remove the rule from the working-set so it's not re-evaluated
@@ -104,6 +107,7 @@ module Rools
                 end
                 
                 # execute this rule
+                logger.debug("executing rule #{rule}") if logger
                 rule.call(obj)
                 
                 # break the current iteration and start back from the first rule defined.

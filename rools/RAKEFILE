@@ -3,9 +3,11 @@ require 'rake'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'rake/contrib/rubyforgepublisher'
-require 'pscp'
+require 'rake/testtask'
 
-PACKAGE_VERSION = '0.1.3'
+#require 'pscp'
+
+PACKAGE_VERSION = '0.1.5'
 
 PACKAGE_FILES = FileList[
   'README',
@@ -39,7 +41,7 @@ gem_spec = Gem::Specification.new do |s|
   s.version = PACKAGE_VERSION
   
   s.authors = 'Sam Smoot', 'Scott Bauer'
-  s.email = 'ssmoot@gmail.com; bauer.mail@gmail.com'
+  s.email = 'ssmoot@gmail.com; bauer.mail@gmail.com cappelaere@gmail.com'
   s.rubyforge_project = PROJECT
   s.homepage = 'http://substantiality.net'
   
@@ -64,4 +66,21 @@ desc "Publish RDOC to RubyForge"
 task :rubyforge => [:rdoc, :gem] do
   Rake::SshDirPublisher.new(ENV['RUBYFORGE_USER'], ENV['RUBYFORGE_PROJECT'], 'doc').upload
   Rake::SshFilePublisher.new(ENV['RUBYFORGE_USER'], ENV['RUBYFORGE_PROJECT'], 'pkg', "#{PROJECT}-#{PACKAGE_VERSION}.gem").upload  
+end
+
+#
+# TEST TASKS
+
+class RoolsTestTask < Rake::TestTask
+    def initialize (name=nil)
+        File.delete "engine.log" if File.exist? "engine.log"
+        super(name)
+    end
+end
+
+# Create a task for handling Unit Tests
+RoolsTestTask.new(:test) do |t|
+    t.libs << "test"
+    t.test_files = FileList['test/rake_test.rb']
+    t.verbose = true
 end

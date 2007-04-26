@@ -1,9 +1,11 @@
 require 'rools/errors'
 require 'rools/default_parameter_proc'
+require 'rools/base'
 
 module Rools
-  class Rule
+  class Rule < Base
     attr_reader :name
+   
     
     # A Rule requires a Rools::RuleSet, a name, and an associated block
     # which will be executed at initialization
@@ -63,9 +65,11 @@ module Rools
     # Checks to see if this Rule's parameters match the asserted object
     def parameters_match?(obj)
       @parameters.each do |p|
+        logger.debug( "match p:#{p} obj:#{obj} sym:#{Symbol}") if logger
         if p.is_a?(Symbol)
           return false unless obj.respond_to?(p)
         else
+          logger.debug( "is_a p:#{p} obj:#{obj} #{obj.is_a?(p)}") if logger
           return false unless obj.is_a?(p)
         end
       end

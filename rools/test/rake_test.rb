@@ -1,0 +1,1 @@
+require 'rules_test'
