@@ -1,10 +1,11 @@
 require 'rools/errors'
 require 'rools/rule'
 require 'rools/base'
+require 'rools/facts'
 
 module Rools
   class RuleSet < Base
-    attr_reader :num_executed, :num_evaluated
+    attr_reader :num_executed, :num_evaluated, :facts
     
     PASS = :pass
     FAIL = :fail
@@ -15,6 +16,7 @@ module Rools
     def initialize(file = nil, &b)
       
       @rules = {}
+      @facts = {}
       @dependencies = {}
       
       if block_given?
@@ -24,6 +26,10 @@ module Rools
       end
     end		
     
+    def get_facts
+      @facts
+    end
+ 
     # rule creates a Rools::Rule. Make sure to use a descriptive name or symbol.
     # For the purposes of extending Rules, all names are converted to
     # strings and downcased.
@@ -36,6 +42,33 @@ module Rools
       name.to_s.downcase!
       @rules[name] = Rule.new(self, name, b)
     end
+    
+    # facts can be created in a similar manner to rules
+    # all names are converted to strings and downcased.
+    # Facts name is equivalent to a Class Name
+    # ==Example
+    # require 'rools'
+	#
+	# rules = Rools::RuleSet.new do
+	#	
+	#	facts 'Countries' do
+	#		["China", "USSR", "France", "Great Britain", "USA"]
+	#	end
+	#	
+	#	rule 'Is it on Security Council?' do
+	#	  parameter String
+	#		condition { countries.include?(string) }
+	#		consequence { puts "Yes, #{string} is in the country list"}
+	#	end
+	# end
+    #
+	# rules.assert 'France'
+    #
+    def facts(name, &b)
+      name.to_s.downcase!
+      @facts[name] = Facts.new(self, name, b)
+    end
+    
     
     # Use in conjunction with Rools::RuleSet#with to create a Rools::Rule dependent on
     # another. Dependencies are created through names (converted to

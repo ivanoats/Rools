@@ -1,9 +1,10 @@
+require 'rools/base'
 module Rools
   
   # The DefaultParameterProc binds to a Rule and
   # is allows the block to use method_missing to
   # refer to the asserted object.
-  class DefaultParameterProc
+  class DefaultParameterProc < Base
     
     # Determines whether a method is vital to the functionality
     # of the class.
@@ -44,7 +45,21 @@ module Rools
     # Parameterless method calls by the attached block are assumed to
     # be references to the working object
     def method_missing(sym, *args)
+      # puts "method missing: #{sym}"
+      # check if it is a fact first
+      begin
+        facts = @rule.rule_set.get_facts
+        if facts.has_key?( sym.to_s )
+          #puts "return fact #{rsfacts[sym.to_s].fact_value}"
+          return facts[sym.to_s].fact_value
+        else
+          #puts "#{sym} not in facts"
+        end
+      rescue Exception => e
+        logger.error "miss exception #{e} #{e.backtrace.join("\n")}" if logger
+      end
       return @working_object if @working_object && args.size == 0
+      return nil
     end
     
     # Stops the current assertion. Does not indicate failure.

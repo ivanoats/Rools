@@ -4,18 +4,18 @@ require 'rools/base'
 
 module Rools
   class Rule < Base
-    attr_reader :name
+    attr_reader :name, :rule_set
    
     
     # A Rule requires a Rools::RuleSet, a name, and an associated block
     # which will be executed at initialization
     def initialize(rule_set, name, b)
       @rule_set = rule_set
-      @name = name
+      @name     = name
       
-      @conditions = []
+      @conditions   = []
       @consequences = []
-      @parameters = []
+      @parameters   = []
       
       instance_eval(&b)
     end
@@ -83,6 +83,7 @@ module Rools
       begin
         @conditions.each { |c| return false unless c.call(obj) }
       rescue StandardError => e
+        logger.error( "rule StandardError #{e} #{e.backtrace.join("\n")}") if logger
         raise RuleCheckError.new(self, e)
       end
       

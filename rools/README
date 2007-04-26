@@ -13,28 +13,23 @@ Rools is a rules engine for abstracting business logic and program-flow. It's id
 	
 	rules = Rools::RuleSet.new do
 		
-		rule 'Is it a String?' do
+		rule 'Hello?' do
 			parameter String
-			consequence { puts "Yes, it's a String" }
-		end
-		
-		rule 'Is it a country?' do
-			condition { Country.find_all.collect { |c| c.name }.include?(string) }
-			consequence { puts "Yes, #{string} is in the country list"}
+			consequence { puts "Hello, Rools!" }
 		end
 	end
 	
-	rules.assert 'Japan'
+	rules.assert 'Heya'
 	
-	> Yes, it's a String
-	> Yes, Japan is in the country list
+	> Hello, Rools!
+
 	
-You can also store your rules in a seperate file, and pass a path to Rools::RuleSet#new instead of a block. e.g.
+You can also store your rules in a separate file, and pass a path to Rools::RuleSet#new instead of a block. e.g.
 	
 	require 'rools'
 	
-	rules = Rools::RuleSet.new 'countries.rules'
-	rules.assert 'Japan'
+	rules = Rools::RuleSet.new 'test/data/hello.rules'
+	rules.assert 'heya'
 
 === Parameter
 
