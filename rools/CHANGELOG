@@ -1,0 +1,16 @@
+- 0.1.4
+	* Removed "examples" folder since my RDoc kung-fu cannot be denied and the examples were redundant
+	* Added Rools::open to rools.rb
+	* Added pscp.rb to create SshPublishers on Win32 with PuttySCP
+	* Added Rools::RuleSet#assert return codes, :pass and :fail
+	* Added stop and fail methods to RuleSet, Rules, and DefaultParameterProc
+
+- 0.1.3
+	Finished most documentation
+	Tweaked the rakefile
+		
+- 0.1.2
+	Added RAKEFILE, README, CHANGELOG
+	
+- 0.1.1
+	Added RuleConsequenceError
