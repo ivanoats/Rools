@@ -101,7 +101,7 @@ module Rools < Base
         end
       rescue StandardError => e
         # discontinue the Rools::RuleSet#assert if any consequence fails
-        raise RuleConsequenceError.new(rule, e)
+        raise RuleConsequenceError.new(self, e)
       end
     end
     
