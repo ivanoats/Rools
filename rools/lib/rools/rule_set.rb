@@ -4,7 +4,8 @@ require 'rools/base'
 
 module Rools
   class RuleSet < Base
-  
+    attr_reader :num_executed, :num_evaluated
+    
     PASS = :pass
     FAIL = :fail
     
@@ -74,6 +75,8 @@ module Rools
     def assert(obj)
       @status = PASS
       @assert = true
+      @num_executed = 0;
+      @num_evaluated = 0;
       
       # create a working-set of all parameter-matching, non-dependent rules
       available_rules = @rules.values.select { |rule| rule.parameters_match?(obj) }
@@ -91,6 +94,7 @@ module Rools
             # RuleCheckErrors are caught and swallowed and the rule that
             # raised the error is removed from the working-set.
             begin
+              @num_evaluated += 1
               if rule.conditions_match?(obj)
                 logger.debug("rule #{rule} matched") if logger
                 matches = true
@@ -109,6 +113,7 @@ module Rools
                 # execute this rule
                 logger.debug("executing rule #{rule}") if logger
                 rule.call(obj)
+                @num_executed += 1
                 
                 # break the current iteration and start back from the first rule defined.
                 break
