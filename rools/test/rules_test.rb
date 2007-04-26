@@ -24,7 +24,7 @@ require 'logger'
     
 class RulesTest < Test::Unit::TestCase
   def setup
-    #Rools::Base.logger = Logger.new(STDOUT)
+    Rools::Base.logger = Logger.new(STDOUT)
   end
   
   def test_hello
@@ -36,7 +36,16 @@ class RulesTest < Test::Unit::TestCase
 	end
 	
 	status = rules.assert 'Heya'
+	puts "executed: #{rules.num_executed}"
 	assert status == :pass
+	assert rules.num_executed == 1
+  end
+  
+  def test_file
+	rules  = Rools::RuleSet.new 'test/data/hello.rules'
+	status = rules.assert 'Heya'
+	assert status == :pass
+
   end
   
   def test_object
@@ -55,6 +64,6 @@ class RulesTest < Test::Unit::TestCase
     end
     jd = Person.new('John Doe', 'coder')
     status = rules.assert( jd )
-	assert status == :pass
+	
   end
 end
