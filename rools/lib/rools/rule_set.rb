@@ -2,6 +2,7 @@ require 'rools/errors'
 require 'rools/rule'
 require 'rools/base'
 require 'rools/facts'
+require 'rexml/document'
 
 module Rools
   class RuleSet < Base
@@ -22,9 +23,64 @@ module Rools
       if block_given?
         instance_eval(&b)
       else
-        instance_eval(File::open(file).read)
-      end
+        # loading a file, check extension
+        name,ext = file.split(".")
+        logger.debug("loading ext: #{ext}") if logger
+        case ext
+ 
+          when 'xml'
+            load_xml( file )
+            
+          when 'rb'
+            load_rb( file )
+              
+          when 'rules'  # for backwards compatibility
+            load_rb(file)
+            
+          else
+            raise "invalid file extension: #{ext}"
+        end
+       end
     end		
+    
+    #
+    # XML File format loading
+    #
+    def load_xml( fileName )
+      file = File.new( fileName )
+      doc = REXML::Document.new file
+      doc.elements.each( "rule-set") { |rs| 
+        facts = rs.elements.each( "facts") { |f| 
+          facts( f.attributes["name"] ) do f.text.strip end
+        }
+        
+        rules = rs.elements.each( "rule") { |rule_node|
+           rule_name  = rule_node.attributes["name"]
+           rule       = Rule.new(self, rule_name, nil)
+           
+           parameters = rule_node.elements.each("parameter") { |param|
+              rule.parameter do eval(param.text.strip) end
+           } 
+           
+           conditions = rule_node.elements.each("condition") { |cond|
+              rule.condition do eval(cond.text.strip) end
+           } 
+ 
+           consequences = rule_node.elements.each("consequence") { |cons|
+              rule.consequence do eval(cons.text.strip) end
+           } 
+           
+           @rules[rule_name] = rule
+        }
+      }
+    end
+    
+    #
+    # Ruby File format
+    #
+    def load_rb( file )
+      instance_eval(File::open(file).read)
+    end
     
     def get_facts
       @facts
@@ -122,7 +178,7 @@ module Rools
           
           # the loop condition is reset to break by default after every iteration
           matches = false
-          logger.debug("available rules: #{available_rules.size.to_s}") if logger
+          #logger.debug("available rules: #{available_rules.size.to_s}") if logger
           available_rules.each do |rule|
             # RuleCheckErrors are caught and swallowed and the rule that
             # raised the error is removed from the working-set.

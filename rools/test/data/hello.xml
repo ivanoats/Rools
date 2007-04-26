@@ -1,0 +1,5 @@
+<rule-set name='hello'>
+	<rule name='Hello'>
+	<consequence>puts "Hello, Rools!"</consequence>
+	</rule>
+</rule-set>

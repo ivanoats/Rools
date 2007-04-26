@@ -17,7 +17,7 @@ module Rools
       @consequences = []
       @parameters   = []
       
-      instance_eval(&b)
+      instance_eval(&b) if b
     end
     
     # Adds a condition to the Rule.
@@ -117,6 +117,10 @@ module Rools
     # Stops the current assertion and change status to :fail
     def fail(message = nil)
       @rule_set.fail(message)
+    end
+    
+    def to_s
+      @name
     end
   end
 end

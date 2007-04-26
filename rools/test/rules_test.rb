@@ -43,7 +43,7 @@ class RulesTest < Test::Unit::TestCase
   end
   
   def test_file
-	rules  = Rools::RuleSet.new 'test/data/hello.rules'
+	rules  = Rools::RuleSet.new 'test/data/hello.rb'
 	status = rules.assert 'Heya'
 	assert status == :pass
 	assert rules.num_executed == 1
