@@ -113,6 +113,7 @@ module Rools
             rescue RuleCheckError => e
               # log da error or sumpin
               available_rules.delete(e.rule)
+              @status = fail
             end # begin/rescue
             
           end # available_rules.each
@@ -122,12 +123,13 @@ module Rools
       rescue RuleConsequenceError => rce
         # RuleConsequenceErrors are allowed to break out of the current assertion,
         # then the inner error is bubbled-up to the asserting code.
+        @status = fail
         raise rce.inner_error
       end
       
       @assert = false
       
-      return status
+      return @status
     end # def assert
     
   end # class RuleSet
