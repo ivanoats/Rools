@@ -1,8 +1,9 @@
 require 'rools/errors'
 require 'rools/rule'
+require 'rools/base'
 
 module Rools
-  class RuleSet
+  class RuleSet < Base
   
     PASS = :pass
     FAIL = :fail

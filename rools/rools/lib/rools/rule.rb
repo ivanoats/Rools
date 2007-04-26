@@ -1,7 +1,8 @@
 require 'rools/errors'
 require 'rools/default_parameter_proc'
+require 'rools/base'
 
-module Rools
+module Rools < Base
   class Rule
     attr_reader :name
     
