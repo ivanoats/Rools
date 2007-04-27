@@ -4,15 +4,15 @@ require 'rools/base'
 
 module Rools
   class Rule < Base
-    attr_reader :name, :rule_set
+    attr_reader :name, :priority, :rule_set
    
     
     # A Rule requires a Rools::RuleSet, a name, and an associated block
     # which will be executed at initialization
-    def initialize(rule_set, name, b)
+    def initialize(rule_set, name, priority, b)
       @rule_set = rule_set
       @name     = name
-      
+      @priority = priority
       @conditions   = []
       @consequences = []
       @parameters   = []

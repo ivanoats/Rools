@@ -2,6 +2,8 @@ require 'rools/errors'
 require 'rools/rule'
 require 'rools/base'
 require 'rools/facts'
+require 'rools/csv_table'
+
 require 'rexml/document'
 
 module Rools
@@ -27,7 +29,9 @@ module Rools
         name,ext = file.split(".")
         logger.debug("loading ext: #{ext}") if logger
         case ext
- 
+          when 'csv'
+            load_csv( file )
+            
           when 'xml'
             load_xml( file )
             
@@ -44,6 +48,15 @@ module Rools
     end		
     
     #
+    # Loads decision table
+    #
+    def load_csv( file )
+      csv = CsvTable.new( file )
+      logger.debug "csv rules: #{csv.rules}" if logger
+      instance_eval(csv.rules)
+    end
+    
+    #
     # XML File format loading
     #
     def load_xml( fileName )
@@ -56,7 +69,9 @@ module Rools
         
         rules = rs.elements.each( "rule") { |rule_node|
            rule_name  = rule_node.attributes["name"]
-           rule       = Rule.new(self, rule_name, nil)
+           priority   = rule_node.attributes["priority"]
+           
+           rule       = Rule.new(self, rule_name, priority, nil)
            
            parameters = rule_node.elements.each("parameter") { |param|
               rule.parameter do eval(param.text.strip) end
@@ -94,9 +109,9 @@ module Rools
     #     condition { language.name.downcase == 'ruby' }
     #     consequence { "#{language.name} is the best!" }
     #   end
-    def rule(name, &b)
+    def rule(name, priority=0, &b)
       name.to_s.downcase!
-      @rules[name] = Rule.new(self, name, b)
+      @rules[name] = Rule.new(self, name, priority, b)
     end
     
     # facts can be created in a similar manner to rules
@@ -182,6 +197,7 @@ module Rools
           available_rules.each do |rule|
             # RuleCheckErrors are caught and swallowed and the rule that
             # raised the error is removed from the working-set.
+            logger.debug("evaluating: #{rule}") if logger
             begin
               @num_evaluated += 1
               if rule.conditions_match?(obj)
