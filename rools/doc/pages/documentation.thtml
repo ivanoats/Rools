@@ -1,0 +1,21 @@
+h2. Rools documentation
+
+h3. basic documentation
+
+* "Rools quickstart":quickstart.html : doing a gem install of Rools and running a first Rools powered program.
+
+* "Rools - developer overview":dev0.html : some notes for the people interested in Rools internals.
+
+* "Rdoc Information":rdoc/index.html : the code generated documentation.
+
+* "Rools Users Group":http://groups.google.com/group/rools-users : Meeting place for Rools Users.
+
+* "Rools-dev Group":http://groups.google.com/group/rools-dev : Meeting place for Rools Developers.
+
+
+h3. admin documentation
+
+
+h3. side developer documentation
+
+Some documentation about things in Rools that can be used indepedently.

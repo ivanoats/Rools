@@ -1,0 +1,40 @@
+h2. getting Rools
+
+You can either "download it":http://rubyforge.org/frs/?group_id=1166 as a gem,
+
+or if you have the <b>gem</b> system installed :
+
+<pre>
+    gem install rools
+</pre>
+
+and use it from within your ruby code 
+
+#:code#ruby#
+    require "rubygems"
+    require "rools"
+    #...
+#:code#
+
+If you want it <b>fresh</b> from the source, check out the source by running
+
+<pre>
+   svn checkout svn://rubyforge.org/var/svn/rools
+</pre>
+
+and then run
+
+<pre>
+   rake gem
+</pre>
+
+to build the latest gem with the latest source.
+
+You can run the unit tests with
+
+<pre>
+   rake test
+</pre>
+
+(more about unit tests in the "devdoc":dev0.html)
+

@@ -1,0 +1,1 @@
+rule-set,Define Salutation,,parameter,Customer,,Condition,Condition,Condition,Consequencec.gender == #{gender},c.maritalStatus == #{status},c.age < #{age},$salutation = #{salutation} Gender,Status,Age,SalutationFemale,Married,,Mrs.Female,Single,,Ms.Male,,,Mr.Male,Single,10,Little

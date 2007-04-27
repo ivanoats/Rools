@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Rools::DefaultParameterProc</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Rools::DefaultParameterProc</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/rools/default_parameter_proc_rb.html">
+                lib/rools/default_parameter_proc.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="Base.html">
+                Base
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="DefaultParameterProc.html">DefaultParameterProc</a> binds to a
+<a href="Rule.html">Rule</a> and is allows the block to use <a
+href="DefaultParameterProc.html#M000024">method_missing</a> to refer to the
+asserted object.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000023">assert</a>&nbsp;&nbsp;
+      <a href="#M000022">call</a>&nbsp;&nbsp;
+      <a href="#M000026">fail</a>&nbsp;&nbsp;
+      <a href="#M000020">is_vital</a>&nbsp;&nbsp;
+      <a href="#M000024">method_missing</a>&nbsp;&nbsp;
+      <a href="#M000021">new</a>&nbsp;&nbsp;
+      <a href="#M000025">stop</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="#M000020" class="method-signature">
+          <span class="method-name">is_vital</span><span class="method-args">(method)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Determines whether a method is vital to the functionality of the class.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000020-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000020-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/default_parameter_proc.rb, line 11</span>
+11:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">is_vital</span>(<span class="ruby-identifier">method</span>)
+12:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">method</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/__(.+)__|method_missing|instance_eval/</span>
+13:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="#M000021" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(rule, b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The &quot;rule&quot; parameter must respond to an :<a
+href="DefaultParameterProc.html#M000023">assert</a> method. The
+&quot;b&quot; parameter is a block that will be rebound to this instance.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000021-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000021-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/default_parameter_proc.rb, line 24</span>
+24:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">rule</span>, <span class="ruby-identifier">b</span>)
+25:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'The &quot;rule&quot; parameter must respond to an :assert method'</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">rule</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:assert</span>)
+26:       <span class="ruby-ivar">@rule</span> = <span class="ruby-identifier">rule</span>
+27:       <span class="ruby-ivar">@proc</span> = <span class="ruby-identifier">b</span>
+28:       <span class="ruby-ivar">@working_object</span> = <span class="ruby-keyword kw">nil</span>
+29:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="#M000023" class="method-signature">
+          <span class="method-name">assert</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Assert a <a href="DefaultParameterProc.html#M000021">new</a> object up the
+composition-chain into the current <a href="RuleSet.html">RuleSet</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000023-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000023-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/default_parameter_proc.rb, line 41</span>
+41:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assert</span>(<span class="ruby-identifier">obj</span>)
+42:       <span class="ruby-ivar">@rule</span>.<span class="ruby-identifier">assert</span>(<span class="ruby-identifier">obj</span>)
+43:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="#M000022" class="method-signature">
+          <span class="method-name">call</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Call the bound block and set the working object so that it can be referred
+to by <a href="DefaultParameterProc.html#M000024">method_missing</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000022-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000022-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/default_parameter_proc.rb, line 33</span>
+33:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">call</span>(<span class="ruby-identifier">obj</span>)
+34:       <span class="ruby-ivar">@working_object</span> = <span class="ruby-identifier">obj</span>
+35:       <span class="ruby-identifier">status</span> = <span class="ruby-identifier">instance_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-ivar">@proc</span>)
+36:       <span class="ruby-ivar">@working_object</span> = <span class="ruby-keyword kw">nil</span>
+37:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">status</span>
+38:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="#M000026" class="method-signature">
+          <span class="method-name">fail</span><span class="method-args">(message = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Stops the current assertion and change status to :<a
+href="DefaultParameterProc.html#M000026">fail</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000026-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000026-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/default_parameter_proc.rb, line 71</span>
+71:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fail</span>(<span class="ruby-identifier">message</span> = <span class="ruby-keyword kw">nil</span>)
+72:       <span class="ruby-ivar">@rule</span>.<span class="ruby-identifier">fail</span>(<span class="ruby-identifier">message</span>)
+73:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="#M000024" class="method-signature">
+          <span class="method-name">method_missing</span><span class="method-args">(sym, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Parameterless method calls by the attached block are assumed to be
+references to the working object
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000024-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000024-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/default_parameter_proc.rb, line 47</span>
+47:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+48:       <span class="ruby-comment cmt"># puts &quot;method missing: #{sym}&quot;</span>
+49:       <span class="ruby-comment cmt"># check if it is a fact first</span>
+50:       <span class="ruby-keyword kw">begin</span>
+51:         <span class="ruby-identifier">facts</span> = <span class="ruby-ivar">@rule</span>.<span class="ruby-identifier">rule_set</span>.<span class="ruby-identifier">get_facts</span>
+52:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">facts</span>.<span class="ruby-identifier">has_key?</span>( <span class="ruby-identifier">sym</span>.<span class="ruby-identifier">to_s</span> )
+53:           <span class="ruby-comment cmt">#puts &quot;return fact #{rsfacts[sym.to_s].fact_value}&quot;</span>
+54:           <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">facts</span>[<span class="ruby-identifier">sym</span>.<span class="ruby-identifier">to_s</span>].<span class="ruby-identifier">fact_value</span>
+55:         <span class="ruby-keyword kw">else</span>
+56:           <span class="ruby-comment cmt">#puts &quot;#{sym} not in facts&quot;</span>
+57:         <span class="ruby-keyword kw">end</span>
+58:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+59:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span> <span class="ruby-node">&quot;miss exception #{e} #{e.backtrace.join(&quot;\n&quot;)}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+60:       <span class="ruby-keyword kw">end</span>
+61:       <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@working_object</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@working_object</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+62:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span>
+63:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="#M000025" class="method-signature">
+          <span class="method-name">stop</span><span class="method-args">(message = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Stops the current assertion. Does not indicate failure.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000025-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000025-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/default_parameter_proc.rb, line 66</span>
+66:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stop</span>(<span class="ruby-identifier">message</span> = <span class="ruby-keyword kw">nil</span>)
+67:       <span class="ruby-ivar">@rule</span>.<span class="ruby-identifier">stop</span>(<span class="ruby-identifier">message</span>)
+68:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

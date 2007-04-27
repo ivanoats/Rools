@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Rools::Rule</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Rools::Rule</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/rools/rule_rb.html">
+                lib/rools/rule.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                <a href="Base.html">
+                Base
+               </a>
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000012">assert</a>&nbsp;&nbsp;
+      <a href="#M000013">call</a>&nbsp;&nbsp;
+      <a href="#M000006">condition</a>&nbsp;&nbsp;
+      <a href="#M000011">conditions_match?</a>&nbsp;&nbsp;
+      <a href="#M000007">consequence</a>&nbsp;&nbsp;
+      <a href="#M000015">fail</a>&nbsp;&nbsp;
+      <a href="#M000005">new</a>&nbsp;&nbsp;
+      <a href="#M000009">parameter</a>&nbsp;&nbsp;
+      <a href="#M000008">parameters</a>&nbsp;&nbsp;
+      <a href="#M000010">parameters_match?</a>&nbsp;&nbsp;
+      <a href="#M000014">stop</a>&nbsp;&nbsp;
+      <a href="#M000016">to_s</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">name</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">priority</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">rule_set</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="#M000005" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(rule_set, name, priority, b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+A <a href="Rule.html">Rule</a> requires a <a
+href="RuleSet.html">Rools::RuleSet</a>, a name, and an associated block
+which will be executed at initialization
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 12</span>
+12:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">rule_set</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">priority</span>, <span class="ruby-identifier">b</span>)
+13:       <span class="ruby-ivar">@rule_set</span> = <span class="ruby-identifier">rule_set</span>
+14:       <span class="ruby-ivar">@name</span>     = <span class="ruby-identifier">name</span>
+15:       <span class="ruby-ivar">@priority</span> = <span class="ruby-identifier">priority</span>
+16:       <span class="ruby-ivar">@conditions</span>   = []
+17:       <span class="ruby-ivar">@consequences</span> = []
+18:       <span class="ruby-ivar">@parameters</span>   = []
+19:       
+20:       <span class="ruby-identifier">instance_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">b</span>
+21:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">assert</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Calls <a href="RuleSet.html#M000040">Rools::RuleSet#assert</a> in the bound
+working-set
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 94</span>
+94:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assert</span>(<span class="ruby-identifier">obj</span>)
+95:       <span class="ruby-ivar">@rule_set</span>.<span class="ruby-identifier">assert</span>(<span class="ruby-identifier">obj</span>)
+96:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="#M000013" class="method-signature">
+          <span class="method-name">call</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Execute each <a href="Rule.html#M000007">consequence</a>. Any
+StandardErrors are caught and wrapped in <a
+href="RuleConsequenceError.html">Rools::RuleConsequenceError</a>, then
+raised to break out of the current assertion.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000013-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 101</span>
+101:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">call</span>(<span class="ruby-identifier">obj</span>)
+102:       <span class="ruby-keyword kw">begin</span>
+103:         <span class="ruby-ivar">@consequences</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+104:           <span class="ruby-identifier">c</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">obj</span>)
+105:         <span class="ruby-keyword kw">end</span>
+106:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">StandardError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+107:         <span class="ruby-comment cmt"># discontinue the Rools::RuleSet#assert if any consequence fails</span>
+108:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">RuleConsequenceError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">rule</span>, <span class="ruby-identifier">e</span>)
+109:       <span class="ruby-keyword kw">end</span>
+110:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="#M000006" class="method-signature">
+          <span class="method-name">condition</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds a <a href="Rule.html#M000006">condition</a> to the <a
+href="Rule.html">Rule</a>. For readability, it might be preferrable to use
+a <a href="Rule.html#M000005">new</a> <a
+href="Rule.html#M000006">condition</a> for every evaluation when possible.
+</p>
+<h2>Example</h2>
+<pre>
+  condition { person.name == 'Fred' }
+  condition { person.age &gt; 18 }
+</pre>
+<p>
+As opposed to:
+</p>
+<pre>
+  condition { person.name == 'Fred' &amp;&amp; person.age &gt; 18 }
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000006-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 31</span>
+31:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">condition</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>)
+32:       <span class="ruby-ivar">@conditions</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">DefaultParameterProc</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">b</span>)
+33:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">conditions_match?</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Checks to see if this <a href="Rule.html">Rule</a>&#8216;s conditions match
+the asserted object Any StandardErrors are caught and wrapped in
+RuleCheckErrors, then raised.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 82</span>
+82:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">conditions_match?</span>(<span class="ruby-identifier">obj</span>)
+83:       <span class="ruby-keyword kw">begin</span>
+84:         <span class="ruby-ivar">@conditions</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">obj</span>) }
+85:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">StandardError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+86:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>( <span class="ruby-node">&quot;rule StandardError #{e} #{e.backtrace.join(&quot;\n&quot;)}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+87:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">RuleCheckError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">e</span>)
+88:       <span class="ruby-keyword kw">end</span>
+89:       
+90:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+91:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="#M000007" class="method-signature">
+          <span class="method-name">consequence</span><span class="method-args">(&amp;b)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds a <a href="Rule.html#M000007">consequence</a> to the <a
+href="Rule.html">Rule</a>
+</p>
+<h2>Example</h2>
+<pre>
+  consequence { user.failed_logins += 1; user.save! }
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000007-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 38</span>
+38:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">consequence</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>)
+39:       <span class="ruby-ivar">@consequences</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">DefaultParameterProc</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">b</span>)
+40:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="#M000015" class="method-signature">
+          <span class="method-name">fail</span><span class="method-args">(message = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Stops the current assertion and change status to :<a
+href="Rule.html#M000015">fail</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000015-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000015-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 118</span>
+118:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fail</span>(<span class="ruby-identifier">message</span> = <span class="ruby-keyword kw">nil</span>)
+119:       <span class="ruby-ivar">@rule_set</span>.<span class="ruby-identifier">fail</span>(<span class="ruby-identifier">message</span>)
+120:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <span class="method-name">parameter</span><span class="method-args">(*matches)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="Rule.html#M000008">parameters</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="#M000008" class="method-signature">
+          <span class="method-name">parameters</span><span class="method-args">(*matches)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets the <a href="Rule.html#M000008">parameters</a> of the <a
+href="Rule.html">Rule</a>
+</p>
+<h2>Example</h2>
+<pre>
+  parameters Person, :name, :occupation
+</pre>
+<p>
+The arguments passed are evaluated with :is_a? for each constant-name
+passed, and :responds_to? for each symbol. So the above example would be
+the same as:
+</p>
+<pre>
+  obj.is_a?(Person) &amp;&amp;
+    obj.responds_to?(:name) &amp;&amp;
+    obj.responds_to?(:occupation)
+</pre>
+<p>
+You can pass any combination of symbols or constants. You might want to
+refrain from referencing constants to aid in &quot;duck-typing&quot;, or
+you might want to use <a href="Rule.html#M000008">parameters</a> such as:
+</p>
+<pre>
+  parameters Person, Employee, :department
+</pre>
+<p>
+To verify that the asserted object is an Employee, that inherits from
+Person, and responds to :department
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 57</span>
+57:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parameters</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">matches</span>)
+58:       <span class="ruby-ivar">@parameters</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">matches</span>
+59:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="#M000010" class="method-signature">
+          <span class="method-name">parameters_match?</span><span class="method-args">(obj)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Checks to see if this <a href="Rule.html">Rule</a>&#8216;s <a
+href="Rule.html#M000008">parameters</a> match the asserted object
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 66</span>
+66:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">parameters_match?</span>(<span class="ruby-identifier">obj</span>)
+67:       <span class="ruby-ivar">@parameters</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
+68:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>( <span class="ruby-node">&quot;match p:#{p} obj:#{obj} sym:#{Symbol}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+69:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+70:           <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">p</span>)
+71:         <span class="ruby-keyword kw">else</span>
+72:           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>( <span class="ruby-node">&quot;is_a p:#{p} obj:#{obj} #{obj.is_a?(p)}&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">logger</span>
+73:           <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-identifier">p</span>)
+74:         <span class="ruby-keyword kw">end</span>
+75:       <span class="ruby-keyword kw">end</span>
+76:       
+77:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+78:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="#M000014" class="method-signature">
+          <span class="method-name">stop</span><span class="method-args">(message = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Stops the current assertion. Does not indicate failure.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000014-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 113</span>
+113:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stop</span>(<span class="ruby-identifier">message</span> = <span class="ruby-keyword kw">nil</span>)
+114:       <span class="ruby-ivar">@rule_set</span>.<span class="ruby-identifier">stop</span>(<span class="ruby-identifier">message</span>)
+115:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="#M000016" class="method-signature">
+          <span class="method-name">to_s</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000016-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000016-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/rools/rule.rb, line 122</span>
+122:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
+123:       <span class="ruby-ivar">@name</span>
+124:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

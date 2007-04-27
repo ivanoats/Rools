@@ -1,0 +1,53 @@
+h2. Rools quickstart
+
+make sure you are using Ruby 1.8.5 at least
+
+<pre>
+   $ sudo gem install rools
+</pre>
+
+
+h3. your first Rools powered program
+
+edit a file named '"rools.rb":/examples/rools.rb'
+
+    
+#:code#ruby#
+require 'rubygems'
+require 'rools'
+
+  rules = Rools::RuleSet.new do
+	rule 'Hello' do
+	   parameter String
+	   consequence { puts "Hello, Rools!" }
+	end
+  end
+  
+  rules.assert 'Heya'
+
+#:code#
+
+
+run that file
+
+<pre>
+    $ ruby rools.rb
+</pre>
+
+
+there should be an output like that one :
+
+
+<pre>
+    Hello, Rools!
+</pre>
+
+
+h3. (uninstalling openwferu)
+
+Maybe Rools isn't for you :
+
+<pre>
+    $ sudo gem uninstall rools
+</pre>
+
