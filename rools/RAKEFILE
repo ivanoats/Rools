@@ -130,8 +130,8 @@ end
 
 desc "Publish RDOC to RubyForge"
 task :rubyforge => [:rdoc, :gem] do
-  Rake::SshDirPublisher.new(ENV['RUBYFORGE_USER'], ENV['RUBYFORGE_PROJECT'], 'doc').upload
-  Rake::SshFilePublisher.new(ENV['RUBYFORGE_USER'], ENV['RUBYFORGE_PROJECT'], 'pkg', "#{PROJECT}-#{PACKAGE_VERSION}.gem").upload  
+  Rake::SshDirPublisher.new(ENV['RUBYFORGE_USER'], ENV['RUBYFORGE_PROJECT'], 'html').upload
+  #Rake::SshFilePublisher.new(ENV['RUBYFORGE_USER'], ENV['RUBYFORGE_PROJECT'], 'pkg', "#{PROJECT}-#{PACKAGE_VERSION}.gem").upload  
 end
 
 # Builds the website and uploads it to Rubyforge.org

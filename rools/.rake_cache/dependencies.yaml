@@ -1,17 +1,17 @@
 --- 
-html/credits.html: 
-- doc/layouts/normal.thtml
 html/documentation.html: 
 - doc/layouts/normal.thtml
-html/index.html: 
+html/credits.html: 
 - doc/layouts/normal.thtml
 html/quickstart.html: 
 - doc/layouts/normal.thtml
+html/index.html: 
+- doc/layouts/normal.thtml
 html/glossary.html: 
 - doc/layouts/normal.thtml
-html/download.html: 
-- doc/layouts/normal.thtml
 html/license.html: 
+- doc/layouts/normal.thtml
+html/download.html: 
 - doc/layouts/normal.thtml
 html/dev0.html: 
 - doc/layouts/normal.thtml

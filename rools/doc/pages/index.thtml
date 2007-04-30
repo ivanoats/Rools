@@ -7,15 +7,13 @@ Rools is ideally suited to processing applications where the business logic unde
 
 Current version is "<%=  Rools::ROOLS_VERSION %>":http://rubyforge.org/projects/rools/
 
-It's about businesss logic in "workflow":http://en.wikipedia.org/wiki/Workflow and "bpm":http://en.wikipedia.org/wiki/Business_Process_Management. T
-he idea is to have business logic directly at hand, not embedded within the software.
+It's about businesss logic in "workflow":http://en.wikipedia.org/wiki/Workflow and "bpm":http://en.wikipedia.org/wiki/Business_Process_Management. The idea is to have business logic directly at hand, not embedded within the software.
 
 In Rools you can define rules using decision tables, in XML or as Ruby classes.
 
 h2. Grasping it
 
 To "quickly get started":quickstart.html.
-
 
 h2. Getting it
 
@@ -25,5 +23,5 @@ h2. Using it
 
 There are a few "examples":/test/ on how to use Rools.
 
-More examples and tests are being written.
+More examples and tests are being written.  Please help us!
 
