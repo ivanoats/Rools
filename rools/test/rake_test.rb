@@ -1,5 +1,5 @@
 #require 'rules_test'
 #require 'facts_test'
 #require 'xml_test'
-#require 'priority_test'
-require 'csv_test'
+require 'priority_test'
+#require 'csv_test'
