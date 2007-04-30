@@ -185,6 +185,10 @@ module Rools
       # create a working-set of all parameter-matching, non-dependent rules
       available_rules = @rules.values.select { |rule| rule.parameters_match?(obj) }
       
+      available_rules = available_rules.sort do  |r1, r2| 
+        r2.priority <=> r1.priority 
+      end
+      
       begin
         
         # loop through the available_rules, evaluating each one,
