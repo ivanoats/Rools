@@ -55,6 +55,7 @@ module Rools
     # To verify that the asserted object is an Employee, that inherits from
     # Person, and responds to :department
     def parameters(*matches)
+      logger.debug( "Adding parameters: #{matches}") if logger
       @parameters += matches
     end
     
@@ -65,19 +66,24 @@ module Rools
     # Checks to see if this Rule's parameters match the asserted object
     def parameters_match?(obj)
       @parameters.each do |p|
-        #logger.debug( "#{self} match p:#{p} obj:#{obj} sym:#{Symbol}") if logger
+        logger.debug( "#{self} match p:#{p} obj:#{obj} sym:#{Symbol}") if logger
         if p.is_a?(Symbol)
           #return false unless obj.respond_to?(p)
           return true if obj.respond_to?(p)
         else
-          #logger.debug( "#{self} is_a p:#{p} obj:#{obj} #{obj.is_a?(p)}") if logger
+          logger.debug( "#{self} is_a p:#{p} obj:#{obj} #{obj.is_a?(p)}") if logger
           #return false unless obj.is_a?(p)
           return true if obj.is_a?(p)
         end
       end
       
       # if parameters are not specified, let's assume that the rule is always relevant
-      return true if @parameters.size > 0
+      if @parameters.size == 0
+        logger.debug "no parameters defined for rule: #{self}" if logger
+        return true
+      end
+      
+      logger.debug( "no parameter match") if logger
       return false
     end
     

@@ -11,7 +11,7 @@ require 'rools'
 require 'rools/base'
 require 'logger'
 
-class Customer
+class Person
   attr_accessor :name, :gender, :maritalStatus
   
   def initialize(name, gender, maritalStatus)
@@ -21,11 +21,20 @@ class Customer
   end
 end
 
-class Hour 
+
+class Hour
   attr_accessor :val
   
   def initialize( val )
     @val = val
+  end
+  
+  def >= ( val)
+    return @val >= val
+  end
+  
+  def <= (val)
+    @val <= val
   end
 end
 
@@ -41,34 +50,39 @@ class CSVTest < Test::Unit::TestCase
 	assert status == :pass
 	assert $greeting = "Good Morning"
 	
+	rules.delete_facts()
 	status = rules.assert Hour.new( 13)
 	assert status == :pass
 	assert $greeting = "Good Afternoon"
 	
+	rules.delete_facts()
 	status = rules.assert Hour.new( 19)
 	assert status == :pass
 	assert $greeting = "Good Night"
   end
 	
   def test_salutations
-    sally = Customer.new("sally", "Married", 43)
-    peggy = Customer.new("peggy", "Single", 43)
-    joe = Customer.new("Joe", "Single", 43)
-    john = Customer.new("Little John", "Single", 9)
+    sally = Person.new("sally", "Married", 43)
+    peggy = Person.new("peggy", "Single", 43)
+    joe   = Person.new("Joe", "Single", 43)
+    john  = Person.new("Little John", "Single", 9)
     
     rules  = Rools::RuleSet.new 'test/data/salutations.csv'
 	status = rules.assert sally
 	assert status == :pass
 	assert $salutation = "Mrs."
 	
+	rules.delete_facts()
 	status = rules.assert peggy
 	assert status == :pass
 	assert $salutation = "Ms."
 	
+	rules.delete_facts()
 	status = rules.assert joe
 	assert status == :pass
 	assert $salutation = "Mr."
 
+	rules.delete_facts()
 	status = rules.assert john
 	assert status == :pass
 	assert $salutation = "Little"

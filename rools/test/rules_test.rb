@@ -11,7 +11,7 @@ require 'rools'
 require 'rools/base'
 require 'logger'
 
- class Person
+ class Employee
     attr_accessor :name, :occupation
       def initialize( name, occupation)
         @name = name
@@ -53,18 +53,18 @@ class RulesTest < Test::Unit::TestCase
   def test_object
     rules = Rools::RuleSet.new do
       rule 'Programmer' do
-   	    parameter Person
-     	condition { person.occupation == 'coder' }
-    	consequence { puts "#{person} is a coder" }
+   	    parameter Employee
+     	condition { employee.occupation == 'coder' }
+    	consequence { puts "#{employee} is a coder" }
       end
 
       rule 'Manager' do
-	    parameter Person
-   		condition { person.occupation == 'manager' }
-   		consequence { puts "#{person} is a manager" }
+	    parameter Employee
+   		condition { employee.occupation == 'manager' }
+   		consequence { puts "#{employee} is a manager" }
       end
     end
-    jd = Person.new('John Doe', 'coder')
+    jd = Employee.new('John Doe', 'coder')
     status = rules.assert( jd )
 	assert status == :pass
 	assert rules.num_executed == 1

@@ -1,1 +1,1 @@
-rule-set,Define Greetings,parameter,Integer,Condition,Condition,Consequencehour >= #{from},hour <= #{to},$greeting =  #{greeting} From,To,Greeting0,11,Good Morning12,17,Good Afternoon18,22,Good Evening23,24,Good Night
+rule-set,Define Greetings,parameter,Hour,Condition,Condition,Consequencehour >= #{from},hour <= #{to},$greeting =  #{greeting} from,to,greeting0,11,Good Morning12,17,Good Afternoon18,22,Good Evening23,24,Good Night

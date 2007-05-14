@@ -1,11 +1,11 @@
 <rule-set name="United Nations Security Council rule-set">
 	<facts name='Countries'>
-			["China", "USSR", "France", "Great Britain", "USA"]
+		["China", "USSR", "France", "Great Britain", "USA"]
 	</facts>
 		
 	<rule name='Is it on Security Council?'>
 		<parameter>String</parameter>
-		<condition> countries.include?(string) </condition>
-		<consequence> puts "Yes, #{string} is in the country list"</consequence>
+		<condition>countries.include?(string) </condition>
+		<consequence>puts "Yes, #{string} is in the country list"</consequence>
 	</rule>
 </rule-set>

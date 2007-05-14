@@ -27,7 +27,7 @@ module Rools
       else
         # loading a file, check extension
         name,ext = file.split(".")
-        logger.debug("loading ext: #{ext}") if logger
+        logger.debug("loading ext: #{name}.#{ext}") if logger
         case ext
           when 'csv'
             load_csv( file )
@@ -60,34 +60,44 @@ module Rools
     # XML File format loading
     #
     def load_xml( fileName )
-      file = File.new( fileName )
-      doc = REXML::Document.new file
-      doc.elements.each( "rule-set") { |rs| 
-        facts = rs.elements.each( "facts") { |f| 
-          facts( f.attributes["name"] ) do f.text.strip end
+      begin
+        file = File.new( fileName )
+        doc = REXML::Document.new file
+        doc.elements.each( "rule-set") { |rs| 
+          facts = rs.elements.each( "facts") { |f| 
+            facts( f.attributes["name"] ) do f.text.strip end
+          }
+          
+          rules = rs.elements.each( "rule") { |rule_node|
+             rule_name  = rule_node.attributes["name"]
+             priority   = rule_node.attributes["priority"]
+             
+             rule       = Rule.new(self, rule_name, priority, nil)
+             
+             parameters = rule_node.elements.each("parameter") { |param|
+                #logger.debug "xml parameter: #{param.text.strip}"
+                rule.parameters(eval(param.text.strip))
+             } 
+             
+             conditions = rule_node.elements.each("condition") { |cond|
+                #logger.debug "xml condition #{cond}"
+                rule.condition do eval(cond.text.strip) end
+             } 
+   
+             consequences = rule_node.elements.each("consequence") { |cons|
+               #logger.debug "xml consequence #{cons}"
+               rule.consequence do eval(cons.text.strip) end
+             } 
+             
+             @rules[rule_name] = rule
+          }
+          logger.debug( "laoded #{rules.size} rules") if logger
         }
-        
-        rules = rs.elements.each( "rule") { |rule_node|
-           rule_name  = rule_node.attributes["name"]
-           priority   = rule_node.attributes["priority"]
-           
-           rule       = Rule.new(self, rule_name, priority, nil)
-           
-           parameters = rule_node.elements.each("parameter") { |param|
-              rule.parameter do eval(param.text.strip) end
-           } 
-           
-           conditions = rule_node.elements.each("condition") { |cond|
-              rule.condition do eval(cond.text.strip) end
-           } 
- 
-           consequences = rule_node.elements.each("consequence") { |cons|
-              rule.consequence do eval(cons.text.strip) end
-           } 
-           
-           @rules[rule_name] = rule
-        }
-      }
+      rescue Exception => e
+        puts "Load XML Exception: #{e.to_s}"
+        puts  e.backtrace.join("\n")
+      end
+      
     end
     
     #
@@ -138,27 +148,35 @@ module Rools
     def facts(name, &b)
       name.to_s.downcase!
       @facts[name] = Facts.new(self, name, b)
+     logger.debug( "created facts: #{name}") if logger
     end
     
-    # a single fact can be an single object of a particular class type
-    # 
+    # A single fact can be an single object of a particular class type
+    # or a collection of objects of a particular type
     def fact( obj )
-    begin
-      # check if facts already exist for that class
-      cls = obj.class.to_s.downcase
-      if @facts.key? cls
-        logger.debug( "adding to facts: #{cls}") if logger
-        @facts[cls].fact_value << obj
-      else
-        logger.debug( "creating facts: #{cls}") if logger
-        arr = Array.new
-        arr << obj
-        proc = Proc.new { arr }
-        @facts[cls] = Facts.new(self, cls, proc ) 
+      begin
+        # check if facts already exist for that class
+        # if so, we need to add it to the existing list
+        cls = obj.class.to_s.downcase
+        
+        if @facts.key? cls
+          logger.debug( "adding to facts: #{cls}") if logger
+          @facts[cls].fact_value << obj
+        else
+          logger.debug( "creating facts: #{cls}") if logger
+          arr = Array.new
+          arr << obj
+          proc = Proc.new { arr }
+          @facts[cls] = Facts.new(self, cls, proc ) 
+        end
+      rescue Exception=> e
+        logger.error e if logger
       end
-    rescue Exception=> e
-      puts e
     end
+    
+    # Delete all existing facts
+    def delete_facts
+        @facts = {}
     end
     
     # Use in conjunction with Rools::RuleSet#with to create a Rools::Rule dependent on
@@ -272,7 +290,8 @@ module Rools
       return @status
     end # def assert
     
-    # turn passed object into facts and call evaluate
+    # Turn passed object into facts and evaluate all relevant rules
+    # Previous facts of same type are removed
     def assert( *objs )
       objs.each { |obj| 
         fact(obj)
@@ -285,10 +304,14 @@ module Rools
       @relevant_rules = Array.new
       @facts.each { |k,f| 
         @rules.values.select { |rule| 
-          if rule.parameters_match?(f.value) && !@relevant_rules.include?( rule)
-            @relevant_rules << rule 
-            logger.debug "#{rule} is relevant" if logger
-          end 
+          if !@relevant_rules.include?( rule)
+            if rule.parameters_match?(f.value) 
+              @relevant_rules << rule 
+              logger.debug "#{rule} is relevant" if logger
+            else
+              logger.debug "#{rule} is not relevant" if logger          
+            end 
+          end
         } 
       }
       
@@ -306,7 +329,8 @@ module Rools
       @num_evaluated = 0;
       
       get_relevant_rules()
-
+      logger.debug("no relevant rules") if logger && @relevant_rules.size==0
+      
       begin #rescue
         
         # loop through the available_rules, evaluating each one,
@@ -349,7 +373,7 @@ module Rools
               end # if rule.conditions_match?(obj)
               
             rescue RuleCheckError => e
-              # log da error or sumpin
+              logger.debug( "RuleCheckError")
               @relevant_rules.delete(e.rule)
               @status = fail
             end # begin/rescue

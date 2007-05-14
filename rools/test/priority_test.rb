@@ -20,18 +20,21 @@ class PriorityTest < Test::Unit::TestCase
   def test_priority
     rules = Rools::RuleSet.new do
 		rule('Prio1', 1) do
+		    parameter String
 			condition { $total == 6 }
 			consequence { $total += 1 }
 			consequence { puts "prio1: #{$total}" }
 		end
 		
 		rule('Prio2', 2) do
+		    parameter String
 			condition { $total == 3 }
 			consequence { $total *= 2 }
 			consequence { puts "prio2: #{$total}" }
 		end
 		
 		rule('Prio3', 3) do
+		    parameter String
 			condition { $total == 0 }
 			consequence { $total = 3 }
 			consequence { puts "prio3: #{$total}" }
