@@ -36,7 +36,7 @@ class RulesTest < Test::Unit::TestCase
 	end
 	
 	status = rules.assert 'Heya'
-	puts "executed: #{rules.num_executed}"
+	#puts "executed: #{rules.num_executed}"
 	assert status == :pass
 	assert rules.num_executed == 1
 	assert rules.num_evaluated == 1

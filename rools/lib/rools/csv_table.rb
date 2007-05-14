@@ -30,7 +30,7 @@ module Rools
       parameter = arrs[1][1]
       #puts "parameter:#{parameter}"
       
-      # get rule elements
+      # get rule elements Conditions/Consequences
       rule_elements = arrs[2]
       
       # get code
@@ -47,34 +47,43 @@ module Rools
       @rules  = ""
       arrs[5..arrs.size].each { |arr|
         rule_name = "rule_#{index}"
-        #puts "arr:#{arr}"
+        #puts "arr:#{arr} index: #{index}"
         
-        @rules << "rule '#{rule_name}' do \n"
+        #if rule_elements[index] != nil
+          @rules << "rule '#{rule_name}' do \n"
           @rules << "  parameter #{parameter}\n"
           column = 0
+          
           rule_elements.each do |element|
             
-            field  = headers[column].downcase
+            field  = headers[column].downcase if headers[column]
             str    = arr[column]
             
-            if str != nil
+            if str != nil && element != nil
               #puts ("eval: #{field} = '#{str}'")
               #eval( "#{field} = '#{str}'" )
   
               @rules << "\t" + element.downcase + "{ "
               pattern = "\#\{#{field}\}"
               
-              statement = rule_code[column].gsub(pattern,quote(str))
-    
+              #puts rule_code[column]
+              #puts "pattern: #{pattern} str:#{str}"
+              if rule_code[column] == pattern
+                statement = str # straight replace
+              else
+                statement = rule_code[column].gsub(pattern,quote(str))
+              end
+              
               #puts "statement:#{statement}"
               
-              @rules << statement
-              
+              @rules << statement     
               @rules << "}\n"
             end
+            
             column += 1
           end
-        @rules << "end\n"
+          @rules << "end\n"
+        #end
         index += 1
       }
     end

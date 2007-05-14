@@ -14,7 +14,7 @@ require 'logger'
     
 class PriorityTest < Test::Unit::TestCase
   def setup
-    Rools::Base.logger = Logger.new(STDOUT)
+    #Rools::Base.logger = Logger.new(STDOUT)
   end
 
   def test_priority

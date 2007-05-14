@@ -10,9 +10,9 @@ module Rools
     # A Rule requires a Rools::RuleSet, a name, and an associated block
     # which will be executed at initialization
     def initialize(rule_set, name, priority, b)
-      @rule_set = rule_set
-      @name     = name
-      @priority = priority
+      @rule_set     = rule_set
+      @name         = name
+      @priority     = priority
       @conditions   = []
       @consequences = []
       @parameters   = []
@@ -65,16 +65,20 @@ module Rools
     # Checks to see if this Rule's parameters match the asserted object
     def parameters_match?(obj)
       @parameters.each do |p|
-        logger.debug( "match p:#{p} obj:#{obj} sym:#{Symbol}") if logger
+        #logger.debug( "#{self} match p:#{p} obj:#{obj} sym:#{Symbol}") if logger
         if p.is_a?(Symbol)
-          return false unless obj.respond_to?(p)
+          #return false unless obj.respond_to?(p)
+          return true if obj.respond_to?(p)
         else
-          logger.debug( "is_a p:#{p} obj:#{obj} #{obj.is_a?(p)}") if logger
-          return false unless obj.is_a?(p)
+          #logger.debug( "#{self} is_a p:#{p} obj:#{obj} #{obj.is_a?(p)}") if logger
+          #return false unless obj.is_a?(p)
+          return true if obj.is_a?(p)
         end
       end
       
-      return true
+      # if parameters are not specified, let's assume that the rule is always relevant
+      return true if @parameters.size > 0
+      return false
     end
     
     # Checks to see if this Rule's conditions match the asserted object
@@ -105,6 +109,7 @@ module Rools
         end
       rescue StandardError => e
         # discontinue the Rools::RuleSet#assert if any consequence fails
+        logger.error( "rule RuleConsequenceError #{e.to_s} #{e.backtrace.join("\n")}") if logger
         raise RuleConsequenceError.new(rule, e)
       end
     end

@@ -1,0 +1,1 @@
+rule-set,301parameter,CustomerCondition,Consequence#{condition},$summary = #{summary}condition,summary,The borrower has been successfully pre-qualified for the requested loan. Congratulations!$incomeValidationResult == 'UNSUFFICIENT',ADDITIONAL INCOME VALIDATION IS NEEDED$debtResearchResult == 'High',ADDITIONAL DEBT RESEARCH IS NEEDED

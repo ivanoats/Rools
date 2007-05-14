@@ -1,0 +1,1 @@
+rule-set,Set 101parameter,"Customer, LoanRequest"Condition,Consequence#{condition},$incomeValidationResult = #{result}condition,result customer.monthlyIncome * 0.8 - customer.monthlyDebt <= loanrequest.amount/loanrequest.term,UNSUFFICIENTcustomer.monthlyIncome * 0.8 - customer.monthlyDebt > loanrequest.amount/loanrequest.term,SUFFICIENT

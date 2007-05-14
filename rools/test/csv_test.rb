@@ -21,23 +21,31 @@ class Customer
   end
 end
 
+class Hour 
+  attr_accessor :val
+  
+  def initialize( val )
+    @val = val
+  end
+end
+
 class CSVTest < Test::Unit::TestCase
 
   def setup
     #Rools::Base.logger = Logger.new(STDOUT)
   end
   
-  def no_test_greetings
+  def test_greetings
     rules  = Rools::RuleSet.new 'test/data/greetings.csv'
-	status = rules.assert 1
+	status = rules.assert Hour.new(1)
 	assert status == :pass
 	assert $greeting = "Good Morning"
 	
-	status = rules.assert 13
+	status = rules.assert Hour.new( 13)
 	assert status == :pass
 	assert $greeting = "Good Afternoon"
 	
-	status = rules.assert 19
+	status = rules.assert Hour.new( 19)
 	assert status == :pass
 	assert $greeting = "Good Night"
   end

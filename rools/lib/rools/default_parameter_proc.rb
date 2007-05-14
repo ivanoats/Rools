@@ -45,18 +45,19 @@ module Rools
     # Parameterless method calls by the attached block are assumed to
     # be references to the working object
     def method_missing(sym, *args)
-      # puts "method missing: #{sym}"
+      #puts "method missing: #{sym}"
       # check if it is a fact first
       begin
         facts = @rule.rule_set.get_facts
         if facts.has_key?( sym.to_s )
-          #puts "return fact #{rsfacts[sym.to_s].fact_value}"
-          return facts[sym.to_s].fact_value
+          #puts "return fact #{facts[sym.to_s].value}" 
+          return facts[sym.to_s].value
         else
-          #puts "#{sym} not in facts"
+          #puts "#{sym} not in facts" 
         end
       rescue Exception => e
-        logger.error "miss exception #{e} #{e.backtrace.join("\n")}" if logger
+        #logger.error "miss exception #{e} #{e.backtrace.join("\n")}" if logger
+        #puts "miss exception #{e} #{e.backtrace.join("\n")}"
       end
       return @working_object if @working_object && args.size == 0
       return nil
