@@ -8,11 +8,11 @@ require 'rexml/document'
 
 module Rools
   class RuleSet < Base
-    attr_reader :num_executed, :num_evaluated, :facts
+    attr_reader :num_executed, :num_evaluated, :facts, :status
     
     PASS = :pass
     FAIL = :fail
-    
+    UNDETERMINED = :undetermined
   
     # You can pass a set of Rools::Rules with a block parameter,
     # or you can pass a file-path to evaluate.
@@ -24,7 +24,7 @@ module Rools
       
       if block_given?
         instance_eval(&b)
-      else
+      elsif file
         # loading a file, check extension
         name,ext = file.split(".")
         logger.debug("loading ext: #{name}.#{ext}") if logger
@@ -91,7 +91,7 @@ module Rools
              
              @rules[rule_name] = rule
           }
-          logger.debug( "laoded #{rules.size} rules") if logger
+          logger.debug( "loaded #{rules.size} rules") if logger
         }
       rescue Exception => e
         puts "Load XML Exception: #{e.to_s}"
@@ -107,10 +107,20 @@ module Rools
       instance_eval(File::open(file).read)
     end
     
+    #
+    # returns an array of facts
+    # 
     def get_facts
       @facts
     end
- 
+    
+    #
+    # returns all the rules defined for that set
+    # 
+    def get_rules
+      @rules
+    end
+    
     # rule creates a Rools::Rule. Make sure to use a descriptive name or symbol.
     # For the purposes of extending Rules, all names are converted to
     # strings and downcased.
@@ -196,9 +206,10 @@ module Rools
     #     condition { language.age > 15 }
     #     consequence { "In the year 2008 Ruby conquered the known universe" }
     #   end
-    def with(name, &b)
+    def with(name, prio=0, &b)
       name.to_s.downcase!
-       (@dependencies[@extend_rule_name] ||= []) << Rule.new(self, name, b)
+       (@dependencies[@extend_rule_name] ||= []) << Rule.new(self, name, prio, b)
+       #@rules[name] = Rule.new(self, name, prio, b)
     end
     
     # Stops the current assertion. Does not indicate failure.
@@ -357,11 +368,12 @@ module Rools
                 
                 # find all parameter-matching dependencies of this rule and
                 # add them to the working-set.
-                #if @dependencies.has_key?(rule.name)
-                #  @relevant_rules += @dependencies[rule.name].select do |dependency|
-                #    dependency.parameters_match?(obj)
-                #  end
-                #end
+                if @dependencies.has_key?(rule.name)
+                  logger.debug( "found dependant rules to #{rule}") if logger
+                  @relevant_rules += @dependencies[rule.name].select do |dependency|
+                    dependency.parameters_match?(obj)
+                  end
+                end
                 
                 # execute this rule
                 logger.debug("executing rule #{rule}") if logger
@@ -373,7 +385,8 @@ module Rools
               end # if rule.conditions_match?(obj)
               
             rescue RuleCheckError => e
-              logger.debug( "RuleCheckError")
+              puts "evaluate RuleCheckError: #{e}"
+              logger.debug( "RuleCheckError") if logger
               @relevant_rules.delete(e.rule)
               @status = fail
             end # begin/rescue

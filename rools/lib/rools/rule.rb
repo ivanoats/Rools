@@ -5,6 +5,7 @@ require 'rools/base'
 module Rools
   class Rule < Base
     attr_reader :name, :priority, :rule_set
+    attr_reader :parameters, :conditions, :consequences
    
     
     # A Rule requires a Rools::RuleSet, a name, and an associated block
@@ -17,7 +18,11 @@ module Rools
       @consequences = []
       @parameters   = []
       
-      instance_eval(&b) if b
+      begin
+        instance_eval(&b) if b
+      rescue Exception => e
+        raise RuleCheckError.new( self, e)
+      end
     end
     
     # Adds a condition to the Rule.

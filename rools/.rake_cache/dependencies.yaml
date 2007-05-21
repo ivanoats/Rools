@@ -1,4 +1,6 @@
 --- 
+html/examples.html: 
+- doc/layouts/normal.thtml
 html/documentation.html: 
 - doc/layouts/normal.thtml
 html/credits.html: 

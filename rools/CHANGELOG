@@ -1,5 +1,18 @@
 = Rools CHANGELOG
 
+== Rools - 0.1.6 released 2007/05/20
+	* todo #1319 use Rails conventions for rules parameters.  
+		WARNING: no more free for all.  
+		The variable used in the rule has to match the define parameter (a Class type)
+		therefore the variable has to be a lowercase singulr version of the parameter.  This is
+		required now to support multiple facts
+	* todo #1318 expand assert to accept more than one object.  You can also use a fact notation
+		to add facts and call evaluate
+	* todo #1283 rule priority completed
+	* todo #1286 added facts that can be asserted
+	* todo #1288 decision tables have been completed
+	
+	
 == Rools - 0.1.5  released 2007/04/27
 	* todo #1282 Added unit tests for baseline
 	* todo #1283 Added rule priority (not completed)

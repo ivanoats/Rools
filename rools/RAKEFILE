@@ -16,6 +16,8 @@ require 'rote/filters/tidy'
 require 'rote/format/html'
 require 'rote/extratasks'
 
+require 'spec/rake/spectask'
+
 include Rote
 
 load 'lib/rools/version.rb'
@@ -170,4 +172,10 @@ RoolsTestTask.new(:test) do |t|
     t.libs << "test"
     t.test_files = FileList['test/rake_test.rb']
     t.verbose = true
+end
+
+# Check Rools specifications using rspec
+Spec::Rake::SpecTask.new('specs') do |t|
+  t.spec_opts = ['--format', 'specdoc']
+  t.spec_files = FileList['specs/**/*.rb']
 end

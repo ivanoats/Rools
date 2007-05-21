@@ -1,0 +1,22 @@
+h2. Rools Examples using spreadsheets/decision tables
+
+Utilization of spreasheets to define business rules is becoming very popular these days.
+Here are several example sthat have been borrowed from "OpenRules":http://openrules.com/examples.htm
+
+They also recommend you to look at the case study
+ "Clinical Guidelines":http://openrules.com/docs/ClinicalGuidelines.htm
+
+Here are some examples that have been adapted for Rools:
+
+* "greeting.xls":../test/data/greetings.xls
+* "salutations.xls":../test/data/salutations.xls
+* "vacation.xls":../test/data/vacation.xls
+* "loan.xls":../test/data/loan.xls
+
+These examples have been created using Excel on the Macintosh.
+The files are then saved as CSV files.  Make sure that no extraneous 
+lines have been added by your favorite spreadhsheet program. 
+
+And let me know if you have any difficulties...
+
+

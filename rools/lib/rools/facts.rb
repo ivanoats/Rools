@@ -22,5 +22,9 @@ module Rools
         @fact_value
       end
     end
+    
+    def to_s
+      "facts: #{name} #{fact_value.to_s}"
+    end
   end
 end

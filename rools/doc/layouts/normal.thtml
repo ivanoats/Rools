@@ -10,6 +10,7 @@ $MENU = [
     :space,
     #[ 'links', '/links.html' ],
     [ 'Documentation', '/documentation.html' ],
+    [ 'Examples', '/examples.html' ],
     [ 'Glossary', '/glossary.html' ],
     
     [ 'Devdoc', '/dev0.html' ],
