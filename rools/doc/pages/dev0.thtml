@@ -27,6 +27,20 @@ You can run tests one at a time with
 
 </pre>
 
+h3. Running the Specification Tests
 
+Rools is using "RSpec":http://rspec.rubyforge.org/
+You need to install the rspec gem on your system with a few others such as "rcov":http://rubyforge.org/projects/rcov/
+
+You can run specification tests with 
+<pre>
+    rake spec
+</pre>
+
+or if you want full coverage analysis with:
+<pre>
+    rake rcov
+</pre>
+This will generate the "coverage report":./output/coverage/index.html and the "specifcation report":./output/rspec_report.html
 _(to be continued)_
 

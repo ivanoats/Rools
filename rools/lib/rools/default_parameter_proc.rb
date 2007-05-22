@@ -52,15 +52,15 @@ module Rools
         if facts.has_key?( sym.to_s )
           #puts "return fact #{facts[sym.to_s].value}" 
           return facts[sym.to_s].value
-        else
+        #else
           #puts "#{sym} not in facts" 
         end
       rescue Exception => e
         #logger.error "miss exception #{e} #{e.backtrace.join("\n")}" if logger
         #puts "miss exception #{e} #{e.backtrace.join("\n")}"
       end
-      return @working_object if @working_object && args.size == 0
-      return nil
+      #return @working_object if @working_object && args.size == 0
+      #return nil
     end
     
     # Stops the current assertion. Does not indicate failure.

@@ -1,7 +1,7 @@
 <rule-set name='hello'>
 	<facts name='Chars'>['a','b','c']</facts>
 	<rule name='Hello'>
-	  <parameter>String</parameter>
+	  <parameter>String</parameters>
 	  <consequence>puts "Hello, Rools!"</consequence>
 	</rule>
 	<rule name='Fixnum'>

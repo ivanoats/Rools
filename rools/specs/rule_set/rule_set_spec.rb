@@ -66,8 +66,15 @@ describe "Empty RuleSet" do
   
   it "can load an xml file" do
     @ruleset.load_xml( "test/data/hello.xml")
-    @ruleset.get_rules.should have(1).rule
+    @ruleset.get_rules.should have(2).rule
   end
+  
+  it "should generate an RuleLoadingError if loading a bad xml file" do
+    lambda {
+      @ruleset.load_xml( "test/data/bad_hello.xml")
+    }.should raise_error( Rools::RuleLoadingError)
+  end
+  
   
   it "can load an rb file" do
     @ruleset.load_rb( "test/data/hello.rb")
@@ -79,4 +86,59 @@ describe "Empty RuleSet" do
     @ruleset.get_rules.should have(4).rules
   end
   
+  it "can be initialized with an .xml file" do
+    @ruleset = Rools::RuleSet.new( "test/data/hello.xml")
+  end
+  
+  it "can be initialized with an .rb file" do
+    @ruleset = Rools::RuleSet.new( "test/data/hello.rb")
+  end
+  
+  it "can be initialized with an .rules file, equivalent to .rb" do
+    @ruleset = Rools::RuleSet.new( "test/data/hello.rules")
+  end
+  
+  it "can be initialized with a .csv file" do
+    @ruleset = Rools::RuleSet.new( "test/data/greetings.csv")
+  end
+
+  it "or will generate an error for other extensions" do
+    lambda {
+      @ruleset = Rools::RuleSet.new( "test/data/greetings.xls")
+    }.should raise_error( Rools::RuleLoadingError)
+  end
+  
+  it "can stop rule evaluation" do
+    ruleset = Rools::RuleSet.new do
+		rule 'Hello' do
+			parameter String
+			consequence { stop("Stop it") }
+		end
+	end
+	status = ruleset.assert "Hey"
+	status.should eql(Rools::RuleSet::PASS)
+  end
+  
+  it "can fail rule evaluation" do
+    ruleset = Rools::RuleSet.new do
+		rule 'Hello' do
+			parameter String
+			consequence { fail("fail it") }
+		end
+	end
+	status = ruleset.assert "Hey"
+	status.should eql(Rools::RuleSet::FAIL)
+  end
+  
+  it "rules do not get evaluated if the rule parameter does not match the asserted object" do
+    ruleset = Rools::RuleSet.new do
+		rule 'Hello' do
+			parameter String
+			consequence { fail("fail it") }
+		end
+	end
+	status = ruleset.assert 10
+	status.should eql(Rools::RuleSet::PASS)
+	ruleset.num_evaluated.should be(0)
+  end
 end

@@ -23,5 +23,11 @@ h2. Using it
 
 There are a few "examples":/test/ on how to use Rools.
 
-More examples and tests are being written.  Please help us!
+h2. Test Coverage
 
+Current Specification/Test Coverage is: <%= Rools::ROOLS_COVERAGE %>% using "RSpec":http://rspec.rubyforge.org/
+
+* Specification report is "here":./output/rpsec_report.html
+* Coverage report is "here":./output/coverage/index.html
+
+It is Behavior Driven Development or BDD from now on!

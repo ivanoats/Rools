@@ -24,4 +24,8 @@ module Rools
   class RuleConsequenceError < RuleError
   end
   
+  # See: Rools::RuleError (RuleLoadingError is only a default derivation)
+  class RuleLoadingError < StandardError
+  end
+  
 end

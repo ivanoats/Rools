@@ -17,12 +17,14 @@ require 'rote/format/html'
 require 'rote/extratasks'
 
 require 'spec/rake/spectask'
+require 'spec/rake/verify_rcov'
 
 include Rote
 
 load 'lib/rools/version.rb'
 
-PACKAGE_VERSION = Rools::ROOLS_VERSION
+PACKAGE_VERSION   = Rools::ROOLS_VERSION
+CURRENT_COVERAGE  = Rools::ROOLS_COVERAGE
 
 CLEAN.include("pkg", "html", "rdoc", "engine.log")
 
@@ -40,7 +42,7 @@ ENV['RUBYFORGE_USER']    = "cappelaere@rubyforge.org"
 ENV['RUBYFORGE_PROJECT'] = "/var/www/gforge-projects/#{PROJECT}"
 
 desc 'Release Files'
-task :default => [:rdoc, :doc, :gem]
+task :default => [:rcov, :rdoc, :doc, :gem, :package]
 
 # Generate the RDoc documentation
 rd = Rake::RDocTask.new do |rdoc|
@@ -120,6 +122,8 @@ Rake::PackageTask.new("rools", Rools::ROOLS_VERSION) do |pkg|
         "examples/**/*",
         "lib/**/*",
         "test/**/*",
+        "specs/**/*",
+        "html/**/*"
     ].to_a
     pkg.package_files.delete("rc.txt")
     pkg.package_files.delete("MISC.txt")
@@ -179,3 +183,24 @@ Spec::Rake::SpecTask.new('specs') do |t|
   t.spec_opts = ['--format', 'specdoc']
   t.spec_files = FileList['specs/**/*.rb']
 end
+
+Spec::Rake::SpecTask.new('spec_coverage') do |t|
+  t.spec_opts = ['--format', 'specdoc']
+  t.spec_files = FileList['specs/**/*.rb']
+  t.rcov = true
+  t.rcov_dir = './html/output/coverage'
+  t.rcov_opts = ['--exclude', 'specs']
+end
+
+desc "Run all specs and store html output in html/output/report.html"
+Spec::Rake::SpecTask.new('spec_html') do |t|
+  t.spec_files = FileList['specs/**/*_spec.rb']
+  t.spec_opts = ['--format html:html/output/rspec_report.html','--backtrace']
+end
+
+RCov::VerifyTask.new(:verify_rcov => :spec_coverage) do |t|
+  t.threshold = CURRENT_COVERAGE # Make sure you have rcov 0.7 or higher!
+  t.index_html = './html/output/coverage/index.html'
+end
+
+task :rcov => [:verify_rcov, :spec_html]

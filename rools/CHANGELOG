@@ -1,5 +1,10 @@
 = Rools CHANGELOG
 
+== Rools - 0.2   released 2007/05/22
+	* specifications have been created using RSpec
+	* fix bug #10985 regarding the support of rule extension
+	* fixed assertion of a fact within a rule
+	
 == Rools - 0.1.6 released 2007/05/20
 	* todo #1319 use Rails conventions for rules parameters.  
 		WARNING: no more free for all.  

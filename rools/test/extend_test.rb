@@ -50,13 +50,13 @@ class ExtendTest < Test::Unit::TestCase
       rule 'one' do
         parameter Fixnum
         condition {fixnum > 100}
-        consequence {puts "*** ruleone: #{$my_fixnum}"}
+        consequence { $result = "higher" }
       end
 
       extend('one').with('two') do
         condition {fixnum < 1000}
         consequence do
-          puts "*** ruletwo: #{fixnum}"
+          $result = "within"
         end
       end
     end
@@ -72,13 +72,13 @@ class ExtendTest < Test::Unit::TestCase
       rule 'one' do
         parameter Fixnum
         condition {fixnum > 100}
-        consequence {puts "*** ruleone: #{$my_fixnum}"}
+        consequence {$result = "higher"}
       end
 
       extend('one').with('two') do
         condition {fixnum < 1000}
         consequence do
-          puts "*** ruletwo: #{fixnum}"
+          $result = "within"
         end
       end
     end
@@ -96,18 +96,18 @@ class ExtendTest < Test::Unit::TestCase
           parameter User
           condition { user.valid? }
           condition { user.password.size > 6 }
-          consequence { puts "#{user} is valid" }
+          consequence { $result = "#{user} is valid" }
         end
         
         extend('Valid User') do
                 with 'Administrative User' do
                         condition { user.admin? }
-                        consequence { puts "#{user} is an admin" }
+                        consequence { $result = "#{user} is an admin" }
                 end
 
                 with 'Customer User' do
                         condition { user.customer? }
-                        consequence { puts "#{user} is a customer" }
+                        consequence { $result = "#{user} is a customer" }
                 end
         end
         

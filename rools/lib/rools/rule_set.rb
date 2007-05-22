@@ -42,7 +42,7 @@ module Rools
             load_rb(file)
             
           else
-            raise "invalid file extension: #{ext}"
+            raise RuleLoadingError, "invalid file extension: #{ext}"
         end
        end
     end		
@@ -94,8 +94,7 @@ module Rools
           logger.debug( "loaded #{rules.size} rules") if logger
         }
       rescue Exception => e
-        puts "Load XML Exception: #{e.to_s}"
-        puts  e.backtrace.join("\n")
+        raise RuleLoadingError, "loading xml file"
       end
       
     end
@@ -223,83 +222,17 @@ module Rools
       @assert = false
     end
     
- 
-    
-    # Used to create a working-set of rules for an object, and evaluate it
-    # against them. Returns a status, simply PASS or FAIL
-    def assert_1(obj)
-      @status = PASS
-      @assert = true
-      @num_executed = 0;
-      @num_evaluated = 0;
-      
-      # create a working-set of all parameter-matching, non-dependent rules
-      available_rules = @rules.values.select { |rule| rule.parameters_match?(obj) }
-      
-      available_rules = available_rules.sort do  |r1, r2| 
-        r2.priority <=> r1.priority 
-      end
-      
-      begin
-        
-        # loop through the available_rules, evaluating each one,
-        # until there are no more matching rules available
-        begin # loop
-          
-          # the loop condition is reset to break by default after every iteration
-          matches = false
-          #logger.debug("available rules: #{available_rules.size.to_s}") if logger
-          available_rules.each do |rule|
-            # RuleCheckErrors are caught and swallowed and the rule that
-            # raised the error is removed from the working-set.
-            logger.debug("evaluating: #{rule}") if logger
-            begin
-              @num_evaluated += 1
-              if rule.conditions_match?(obj)
-                logger.debug("rule #{rule} matched") if logger
-                matches = true
-                
-                # remove the rule from the working-set so it's not re-evaluated
-                available_rules.delete(rule)
-                
-                # find all parameter-matching dependencies of this rule and
-                # add them to the working-set.
-                if @dependencies.has_key?(rule.name)
-                  available_rules += @dependencies[rule.name].select do |dependency|
-                    dependency.parameters_match?(obj)
-                  end
-                end
-                
-                # execute this rule
-                logger.debug("executing rule #{rule}") if logger
-                rule.call(obj)
-                @num_executed += 1
-                
-                # break the current iteration and start back from the first rule defined.
-                break
-              end # if rule.conditions_match?(obj)
-              
-            rescue RuleCheckError => e
-              # log da error or sumpin
-              available_rules.delete(e.rule)
-              @status = fail
-            end # begin/rescue
-            
-          end # available_rules.each
-          
-        end while(matches && @assert)
-        
-      rescue RuleConsequenceError => rce
-        # RuleConsequenceErrors are allowed to break out of the current assertion,
-        # then the inner error is bubbled-up to the asserting code.
-        @status = fail
-        raise rce.inner_error
-      end
-      
-      @assert = false
-      
-      return @status
-    end # def assert
+    #
+    # an assert has been made within a rule
+    # 
+    def rule_assert( obj )
+      # add object as a new fact
+      f = fact(obj)
+      # get_relevant_rules
+      logger.debug( "Check if we need to add more rules") if logger
+      add_relevant_rules_for_fact(f)
+      sort_relevant_rules
+    end
     
     # Turn passed object into facts and evaluate all relevant rules
     # Previous facts of same type are removed
@@ -310,26 +243,40 @@ module Rools
       return evaluate()
     end
     
-    # get all relevant rules for all specified facts
-    def get_relevant_rules
-      @relevant_rules = Array.new
-      @facts.each { |k,f| 
-        @rules.values.select { |rule| 
-          if !@relevant_rules.include?( rule)
-            if rule.parameters_match?(f.value) 
+    #
+    # for a particular fact, we need to retrieve the relevant rules
+    # and add them to the relevant list
+    # 
+    def add_relevant_rules_for_fact fact
+      @rules.values.select { |rule| 
+        if !@relevant_rules.include?( rule)
+            if rule.parameters_match?(fact.value) 
               @relevant_rules << rule 
               logger.debug "#{rule} is relevant" if logger
             else
               logger.debug "#{rule} is not relevant" if logger          
             end 
-          end
-        } 
-      }
-      
+        end
+      } 
+    end
+    
+    #
+    # relevant rules need to be sorted in priority order
+    # 
+    def sort_relevant_rules
       # sort array in rule priority order
       @relevant_rules = @relevant_rules.sort do  |r1, r2| 
         r2.priority <=> r1.priority 
       end
+    end
+    
+    # get all relevant rules for all specified facts
+    def get_relevant_rules
+      @relevant_rules = Array.new
+      @facts.each { |k,f| 
+        add_relevant_rules_for_fact f
+      }
+      sort_relevant_rules
     end
     
     # evaluate all relevant rules for specified facts
@@ -385,8 +332,8 @@ module Rools
               end # if rule.conditions_match?(obj)
               
             rescue RuleCheckError => e
-              puts "evaluate RuleCheckError: #{e}"
-              logger.debug( "RuleCheckError") if logger
+              #puts "evaluate RuleCheckError: #{e.to_s}"
+              logger.error( "RuleCheckError") if logger
               @relevant_rules.delete(e.rule)
               @status = fail
             end # begin/rescue

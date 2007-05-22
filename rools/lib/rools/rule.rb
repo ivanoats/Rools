@@ -107,7 +107,7 @@ module Rools
     
     # Calls Rools::RuleSet#assert in the bound working-set
     def assert(obj)
-      @rule_set.assert(obj)
+      @rule_set.rule_assert(obj)
     end
     
     # Execute each consequence.
