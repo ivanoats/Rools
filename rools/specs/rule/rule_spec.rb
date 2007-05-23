@@ -60,10 +60,10 @@ describe Rools::Rule do
 	end
 	rules = ruleset.get_rules
 	rule1 = rules.values[0]
-	rule1.parameters.should have(1).parameter
+	rule1.get_parameters.should have(1).parameter
 	
 	rule2 = rules.values[1]
-	rule2.parameters.should have(0).parameter
+	rule2.get_parameters.should have(0).parameter
 	
   end
   
@@ -92,6 +92,19 @@ describe Rools::Rule do
 	ruleset.assert Hour.new(56)
 	ruleset.num_executed.should be(1)
   end
+  
+   it "but should fails if Class type is correct but does not respond to specified method" do
+    ruleset = Rools::RuleSet.new do
+	  rule 'greater' do
+		parameter Hour, :value
+		condition { hour.value > 24}
+		consequence { $result = "hour greater than 24" }
+	  end
+	end
+	ruleset.assert Hour.new(56)
+	ruleset.num_executed.should be(0)
+  end
+  
   
   it "a rule parameter type has to be pre-defined or will generate a RuleCheckError" do
     lambda {
@@ -181,5 +194,17 @@ describe Rools::Rule do
 	ruleset.num_executed.should be(2);
     ruleset.num_evaluated.should be(2);
       
+  end
+  
+  it "should fail if an invalid symbol is used" do
+     ruleset = Rools::RuleSet.new do
+		rule 'Hello' do
+		    parameter String
+			consequence { puts "Hello, Rools! #{str}" }
+		end
+	  end
+	  
+	  status = ruleset.assert "heya"
+	  status.should eql(Rools::RuleSet::FAIL)
   end
 end

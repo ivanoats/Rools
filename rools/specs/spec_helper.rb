@@ -2,6 +2,8 @@ dir = File.dirname(__FILE__)
 lib_path = File.expand_path("#{dir}/../lib")
 $LOAD_PATH.unshift lib_path unless $LOAD_PATH.include?(lib_path)
 
+
+
 # author unknown, please make yourself known
 # if you would like credit.
 # http://pastie.caboo.se/10707

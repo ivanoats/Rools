@@ -163,7 +163,7 @@ module Rools
     # A single fact can be an single object of a particular class type
     # or a collection of objects of a particular type
     def fact( obj )
-      begin
+      #begin
         # check if facts already exist for that class
         # if so, we need to add it to the existing list
         cls = obj.class.to_s.downcase
@@ -178,9 +178,9 @@ module Rools
           proc = Proc.new { arr }
           @facts[cls] = Facts.new(self, cls, proc ) 
         end
-      rescue Exception=> e
-        logger.error e if logger
-      end
+      #rescue Exception=> e
+      #  logger.error e if logger
+      #end
     end
     
     # Delete all existing facts
@@ -289,7 +289,7 @@ module Rools
       get_relevant_rules()
       logger.debug("no relevant rules") if logger && @relevant_rules.size==0
       
-      begin #rescue
+      #begin #rescue
         
         # loop through the available_rules, evaluating each one,
         # until there are no more matching rules available
@@ -331,23 +331,22 @@ module Rools
                 break
               end # if rule.conditions_match?(obj)
               
+            rescue RuleConsequenceError
+              fail
             rescue RuleCheckError => e
-              #puts "evaluate RuleCheckError: #{e.to_s}"
-              logger.error( "RuleCheckError") if logger
-              @relevant_rules.delete(e.rule)
-              @status = fail
+              fail
             end # begin/rescue
             
           end # available_rules.each
           
         end while(matches && @assert)
         
-      rescue RuleConsequenceError => rce
+      #rescue RuleConsequenceError => rce
         # RuleConsequenceErrors are allowed to break out of the current assertion,
         # then the inner error is bubbled-up to the asserting code.
-        @status = fail
-        raise rce.inner_error
-      end
+      #  @status = FAIL
+      #  raise rce.inner_error
+      #end
       
       @assert = false
       

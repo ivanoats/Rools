@@ -60,8 +60,16 @@ module Rools
     # To verify that the asserted object is an Employee, that inherits from
     # Person, and responds to :department
     def parameters(*matches)
-      logger.debug( "Adding parameters: #{matches}") if logger
-      @parameters += matches
+      logger.debug( "Adding parameters: #{matches.inspect}") if logger
+#     @parameters += matches
+      @parameters << matches
+    end
+    
+    #
+    # returns parameters of rule
+    # 
+    def get_parameters
+      @parameters
     end
     
     # parameters is aliased to aid in readability if you decide
@@ -70,25 +78,31 @@ module Rools
     
     # Checks to see if this Rule's parameters match the asserted object
     def parameters_match?(obj)
-      @parameters.each do |p|
-        logger.debug( "#{self} match p:#{p} obj:#{obj} sym:#{Symbol}") if logger
-        if p.is_a?(Symbol)
-          #return false unless obj.respond_to?(p)
-          return true if obj.respond_to?(p)
-        else
-          logger.debug( "#{self} is_a p:#{p} obj:#{obj} #{obj.is_a?(p)}") if logger
-          #return false unless obj.is_a?(p)
-          return true if obj.is_a?(p)
-        end
-      end
-      
       # if parameters are not specified, let's assume that the rule is always relevant
       if @parameters.size == 0
         logger.debug "no parameters defined for rule: #{self}" if logger
         return true
       end
       
-      logger.debug( "no parameter match") if logger
+      @parameters.each do |params|
+        match = false
+        
+        params.each do  |p|
+          logger.debug( "#{self} match p:#{p} obj:#{obj}") if logger
+        
+          if p.is_a?(Symbol) 
+            if obj.respond_to?(p)
+              match = true
+            else
+              return false
+            end
+          elsif obj.is_a?(p)
+            match = true
+          end
+        end
+        return true if match
+      end
+     
       return false
     end
     
@@ -98,7 +112,7 @@ module Rools
       begin
         @conditions.each { |c| return false unless c.call(obj) }
       rescue StandardError => e
-        logger.error( "rule StandardError #{e} #{e.backtrace.join("\n")}") if logger
+        logger.error( "conditions_match? StandardError #{e} #{e.backtrace.join("\n")}") if logger
         raise RuleCheckError.new(self, e)
       end
       
@@ -118,10 +132,10 @@ module Rools
         @consequences.each do |c|
           c.call(obj)
         end
-      rescue StandardError => e
+      rescue Exception => e
         # discontinue the Rools::RuleSet#assert if any consequence fails
         logger.error( "rule RuleConsequenceError #{e.to_s} #{e.backtrace.join("\n")}") if logger
-        raise RuleConsequenceError.new(rule, e)
+        raise RuleConsequenceError.new(self, e)
       end
     end
     

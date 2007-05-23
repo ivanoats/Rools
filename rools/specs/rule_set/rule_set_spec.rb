@@ -4,6 +4,8 @@ require 'rools'
 # to support csv test
 class Hour
 end
+class Customer
+end
 
 describe "Empty RuleSet" do
   before(:each) do
@@ -55,6 +57,12 @@ describe "Empty RuleSet" do
     @ruleset.get_facts.should have(0).facts
   end
   
+  it "can accept more than one fact of the same type, they get associated in the same fact type" do
+    @ruleset.fact( "heya" )
+    @ruleset.fact( "hello" )
+    @ruleset.get_facts.should have(1).facts
+  end
+  
   it "can accept fact stements in a rule set" do
     @ruleset = Rools::RuleSet.new do
 		facts 'Countries' do
@@ -99,7 +107,7 @@ describe "Empty RuleSet" do
   end
   
   it "can be initialized with a .csv file" do
-    @ruleset = Rools::RuleSet.new( "test/data/greetings.csv")
+    @ruleset = Rools::RuleSet.new( "test/data/rules301.csv")
   end
 
   it "or will generate an error for other extensions" do

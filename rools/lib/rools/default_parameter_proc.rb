@@ -25,15 +25,15 @@ module Rools
       raise ArgumentError.new('The "rule" parameter must respond to an :assert method') unless rule.respond_to?(:assert)
       @rule = rule
       @proc = b
-      @working_object = nil
+      #@working_object = nil
     end
     
     # Call the bound block and set the working object so that it
     # can be referred to by method_missing
     def call(obj)
-      @working_object = obj
+      #@working_object = obj
       status = instance_eval(&@proc)
-      @working_object = nil
+      #@working_object = nil
       return status
     end
     
@@ -47,20 +47,18 @@ module Rools
     def method_missing(sym, *args)
       #puts "method missing: #{sym}"
       # check if it is a fact first
-      begin
+      #begin
         facts = @rule.rule_set.get_facts
         if facts.has_key?( sym.to_s )
           #puts "return fact #{facts[sym.to_s].value}" 
           return facts[sym.to_s].value
-        #else
-          #puts "#{sym} not in facts" 
+        else
+          raise Exception, "symbol: #{sym} not found in facts"
         end
-      rescue Exception => e
-        #logger.error "miss exception #{e} #{e.backtrace.join("\n")}" if logger
-        #puts "miss exception #{e} #{e.backtrace.join("\n")}"
-      end
-      #return @working_object if @working_object && args.size == 0
-      #return nil
+      #rescue Exception => e
+      #  puts "miss exception #{e} #{e.backtrace.join("\n")}"
+      #  return nil
+      #end
     end
     
     # Stops the current assertion. Does not indicate failure.

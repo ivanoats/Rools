@@ -27,7 +27,7 @@ h2. Test Coverage
 
 Current Specification/Test Coverage is: <%= Rools::ROOLS_COVERAGE %>% using "RSpec":http://rspec.rubyforge.org/
 
-* Specification report is "here":./output/rpsec_report.html
+* Specification report is "here":./output/rspec_report.html
 * Coverage report is "here":./output/coverage/index.html
 
-It is Behavior Driven Development or BDD from now on!
+It is Behavior Driven Development aka BDD from now on!
