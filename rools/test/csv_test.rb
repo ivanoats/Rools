@@ -59,6 +59,11 @@ class CSVTest < Test::Unit::TestCase
 	rules.delete_facts()
 	status = rules.assert Hour.new( 19)
 	assert status == :pass
+	assert $greeting == "Good Evening"
+	
+	rules.delete_facts()
+	status = rules.assert Hour.new( 23)
+	assert status == :pass
 	assert $greeting == "Good Night"
   end
 	
