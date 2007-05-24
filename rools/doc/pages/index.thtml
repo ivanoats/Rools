@@ -5,7 +5,7 @@ Its goal is to abstracting business logic and program-flow.
 Rools is ideally suited to processing applications where the business logic undergoes frequent modification.
 
 
-Current version is "<%=  Rools::ROOLS_VERSION %>":http://rubyforge.org/projects/rools/
+Current version is "<%=  Rools::ROOLS_VERSION %>":http://rubyforge.org/projects/rools/ 
 
 It's about businesss logic in "workflow":http://en.wikipedia.org/wiki/Workflow and "bpm":http://en.wikipedia.org/wiki/Business_Process_Management. The idea is to have business logic directly at hand, not embedded within the software.
 
@@ -25,7 +25,7 @@ There are a few "examples":/test/ on how to use Rools.
 
 h2. Test Coverage
 
-Current Specification/Test Coverage is: <%= Rools::ROOLS_COVERAGE %>% using "RSpec":http://rspec.rubyforge.org/
+Current Specification/Test Coverage is now: <a href''><%= Rools::ROOLS_COVERAGE %>%</a> using "RSpec":http://rspec.rubyforge.org/ (check svn)
 
 * Specification report is "here":./output/rspec_report.html
 * Coverage report is "here":./output/coverage/index.html

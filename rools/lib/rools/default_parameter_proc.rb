@@ -45,7 +45,7 @@ module Rools
     # Parameterless method calls by the attached block are assumed to
     # be references to the working object
     def method_missing(sym, *args)
-      #puts "method missing: #{sym}"
+      # puts "method missing: #{sym} args:#{args.inspect}"
       # check if it is a fact first
       #begin
         facts = @rule.rule_set.get_facts

@@ -155,6 +155,7 @@ module Rools
 	# rules.assert 'France'
     #
     def facts(name, &b)
+      name.gsub!(/:/, '_')
       name.to_s.downcase!
       @facts[name] = Facts.new(self, name, b)
      logger.debug( "created facts: #{name}") if logger
@@ -167,7 +168,7 @@ module Rools
         # check if facts already exist for that class
         # if so, we need to add it to the existing list
         cls = obj.class.to_s.downcase
-        
+        cls.gsub!(/:/, '_')
         if @facts.key? cls
           logger.debug( "adding to facts: #{cls}") if logger
           @facts[cls].fact_value << obj
