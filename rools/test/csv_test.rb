@@ -42,24 +42,24 @@ end
 class CSVTest < Test::Unit::TestCase
 
   def setup
-    Rools::Base.logger = Logger.new(STDOUT)
+    #Rools::Base.logger = Logger.new(STDOUT)
   end
   
-  def no_test_greetings
+  def test_greetings
     rules  = Rools::RuleSet.new 'test/data/greetings.csv'
 	status = rules.assert Hour.new(1)
 	assert status == :pass
-	assert $greeting = "Good Morning"
+	assert $greeting == "Good Morning"
 	
 	rules.delete_facts()
 	status = rules.assert Hour.new( 13)
 	assert status == :pass
-	assert $greeting = "Good Afternoon"
+	assert $greeting == "Good Afternoon"
 	
 	rules.delete_facts()
 	status = rules.assert Hour.new( 19)
 	assert status == :pass
-	assert $greeting = "Good Night"
+	assert $greeting == "Good Night"
   end
 	
   def test_salutations
