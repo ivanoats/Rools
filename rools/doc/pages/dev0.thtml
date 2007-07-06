@@ -23,7 +23,7 @@ You can run tests one at a time with
 
 <pre>
 
-    rake test TEST=test/facts.rb
+    rake test TEST=test/facts_test.rb
 
 </pre>
 
@@ -34,7 +34,7 @@ You need to install the rspec gem on your system with a few others such as "rcov
 
 You can run specification tests with 
 <pre>
-    rake spec
+    rake specs
 </pre>
 
 or if you want full coverage analysis with:
@@ -42,5 +42,14 @@ or if you want full coverage analysis with:
     rake rcov
 </pre>
 This will generate the "coverage report":./output/coverage/index.html and the "specifcation report":./output/rspec_report.html
-_(to be continued)_
+
+<pre>
+The Rakefile for rools uses 'rote' and several of its filters to produce documentation. To avoid errors or
+incorrect markup processing, please install the following gems:
+    gem install redcloth
+    gem install bluecloth
+    gem install tidy
+    gem install syntax
+    gem install rote
+</pre>
 

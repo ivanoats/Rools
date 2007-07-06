@@ -15,5 +15,7 @@ html/license.html:
 - doc/layouts/normal.thtml
 html/download.html: 
 - doc/layouts/normal.thtml
+html/support.html: 
+- doc/layouts/normal.thtml
 html/dev0.html: 
 - doc/layouts/normal.thtml

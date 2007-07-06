@@ -61,8 +61,17 @@ module Rools
     #
     def load_xml( fileName )
       begin
-        file = File.new( fileName )
-        doc = REXML::Document.new file
+        str = IO.read(fileName)
+        load_xml_rules_as_string(str)
+      rescue Exception => e
+        raise RuleLoadingError, "loading xml file"
+      end
+    end
+    
+    # load xml rules as a string
+    def load_xml_rules_as_string( str )
+      begin
+        doc = REXML::Document.new str
         doc.elements.each( "rule-set") { |rs| 
           facts = rs.elements.each( "facts") { |f| 
             facts( f.attributes["name"] ) do f.text.strip end
@@ -100,10 +109,20 @@ module Rools
     end
     
     #
-    # Ruby File format
+    # Ruby File format loading
     #
     def load_rb( file )
-      instance_eval(File::open(file).read)
+      begin
+        str = IO.read(file)
+        load_rb_rules_as_string(str)
+      rescue Exception => e
+        raise RuleLoadingError, "loading ruby file"
+      end
+    end
+    
+    # load ruby rules as a string
+    def load_rb_rules_as_string( str )
+      instance_eval(str)    
     end
     
     #

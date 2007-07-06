@@ -83,9 +83,39 @@ describe "Empty RuleSet" do
     }.should raise_error( Rools::RuleLoadingError)
   end
   
+   it "can load an xml string" do
+    
+  str ="<rule-set name='hello'>
+    	<facts name='Chars'>['a','b','c']</facts>
+    	<rule name='Hello'>
+    	  <parameter>String</parameter>
+    	  <consequence>puts 'Hello, Rools!'</consequence>
+    	</rule>
+    </rule-set>"
+
+     @ruleset.load_xml_rules_as_string( str )
+     @ruleset.get_rules.should have(1).rule
+  end
   
   it "can load an rb file" do
     @ruleset.load_rb( "test/data/hello.rb")
+    @ruleset.get_rules.should have(1).rule
+  end
+  
+  it "should generate an RuleLoadingError if loading a bad ruby file" do
+    lambda {
+      @ruleset.load_xml( "test/data/bad_hello.rb")
+    }.should raise_error( Rools::RuleLoadingError)
+  end
+  
+  it "can load an rb rule string" do
+
+  str = "rule 'Hello' do
+  	  parameter String
+  	  consequence { puts 'Hello, Rools!' }
+    end"
+
+    @ruleset.load_rb_rules_as_string( str )
     @ruleset.get_rules.should have(1).rule
   end
   
