@@ -1,19 +1,19 @@
 --- 
 html/examples.html: 
 - doc/layouts/normal.thtml
-html/documentation.html: 
-- doc/layouts/normal.thtml
 html/credits.html: 
 - doc/layouts/normal.thtml
-html/quickstart.html: 
+html/documentation.html: 
 - doc/layouts/normal.thtml
 html/index.html: 
 - doc/layouts/normal.thtml
+html/quickstart.html: 
+- doc/layouts/normal.thtml
 html/glossary.html: 
 - doc/layouts/normal.thtml
-html/license.html: 
-- doc/layouts/normal.thtml
 html/download.html: 
+- doc/layouts/normal.thtml
+html/license.html: 
 - doc/layouts/normal.thtml
 html/support.html: 
 - doc/layouts/normal.thtml

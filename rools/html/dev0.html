@@ -85,16 +85,30 @@
       </div>
 
       <div id="rightColumn">
-		<a href='support.html'>Interested in</a>
-		<br/>
-		<a href='support.html'>Sponsoring Rools?</a>
-		<br/>
-		<a href='support.html'>& Support Open Source</a>
+
+		<a href='support.html'>Support Open Source</a>
 		<br/>	
 		<a href='support.html'>Development</a>
 		<br/>	
 		<br/>	
 		<br/>	
+		<a href='support.html'><b>Sponsors:</b></a><br/>
+		<table class='sponsors' border='0' frame='0'>
+		<tr>
+		<td>
+		<a href='http://www.vightel.com'><img src='./images/vightel.logo.gif' width="40"/></a>
+		</td>
+		<td>
+		<a href='http://www.vightel.com'>Vightel Corporation</a><br/>
+		</td></tr>
+		<tr><td>
+		<a href='http://www.i-sol.biz/'><img src='./images/isol.logo.png' height="40"/></a>
+		</td>
+		<td>
+		<a href='http://www.i-sol.biz/'>Innovative Solutions</a><br/>
+		</td></tr>
+		</table>
+		<br/>
 		<div>
 			<script type="text/javascript"><!--
 			google_ad_client = "pub-8569429285228633";
@@ -153,7 +167,7 @@
 
 <pre>
 
-    rake test TEST=test/facts.rb
+    rake test TEST=test/facts_test.rb
 
 </pre>
 
@@ -166,7 +180,7 @@ You need to install the rspec gem on your system with a few others such as <a hr
 
 You can run specification tests with 
 <pre>
-    rake spec
+    rake specs
 </pre>
 
 or if you want full coverage analysis with:
@@ -174,7 +188,16 @@ or if you want full coverage analysis with:
     rake rcov
 </pre>
 This will generate the <a href="./output/coverage/index.html">coverage report</a> and the <a href="./output/rspec_report.html">specifcation report</a>
-_(to be continued)_
+
+<pre>
+The Rakefile for rools uses 'rote' and several of its filters to produce documentation. To avoid errors or
+incorrect markup processing, please install the following gems:
+    gem install redcloth
+    gem install bluecloth
+    gem install tidy
+    gem install syntax
+    gem install rote
+</pre>
       </div>
 
       <div id="footer">
