@@ -143,21 +143,29 @@ end
 # Builds the website and uploads it to Rubyforge.org
 task :upload_website => [:doc] do
     sh """
-rsync -azv -e ssh \
+rsync -azvP0 -e ssh \
 html/ \
-ENV['RUBYFORGE_USER']:ENV['RUBYFORGE_PROJECT']
+cappelaere@rubyforge.org:/var/www/gforge-projects/rools
     """
     sh """
-rsync -azv -e ssh \
+rsync -azvP0 -e ssh \
 --exclude='.svn' --delete-excluded \
 doc/res/defs \
-ENV['RUBYFORGE_USER']:ENV['RUBYFORGE_PROJECT']
+cappelaere@rubyforge.org:/var/www/gforge-projects/rools
     """
     sh """
-rsync -azv -e ssh \
+rsync -azvP0 -e ssh \
 --exclude='.svn' --delete-excluded \
 examples \
-ENV['RUBYFORGE_USER']:ENV['RUBYFORGE_PROJECT']
+cappelaere@rubyforge.org:/var/www/gforge-projects/rools
+    """
+end
+
+task :upload_html do
+    sh """
+rsync -azv -e ssh \
+html/ \
+cappelaere@rubyforge.org:/var/www/gforge-projects/rools
     """
 end
 
