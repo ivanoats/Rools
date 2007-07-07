@@ -4,22 +4,40 @@ $LOAD_PATH.unshift lib_path unless $LOAD_PATH.include?(lib_path)
 
 
 
-# author unknown, please make yourself known
-# if you would like credit.
-# http://pastie.caboo.se/10707
+#
+# From 
+#   * http://wincent.com/knowledge-base/Fixtures_considered_harmful%3F
+#   * Neil Rahilly
 
 class Hash
-  # Usage { :a => 1, :b => 2, :c => 3}.except(:a) -> { :b => 2, :c => 3}
+
+  ##
+  # Filter keys out of a Hash.
+  #
+  #   { :a => 1, :b => 2, :c => 3 }.except(:a)
+  #   => { :b => 2, :c => 3 }
+
   def except(*keys)
-    self.reject { |k,v|
-      keys.include? k.to_sym
-    }
+    self.reject { |k,v| keys.include?(k || k.to_sym) }
   end
 
-  # Usage { :a => 1, :b => 2, :c => 3}.only(:a) -> {:a => 1}
+  ## 
+  # Override some keys.
+  #
+  #   { :a => 1, :b => 2, :c => 3 }.with(:a => 4)
+  #   => { :a => 4, :b => 2, :c => 3 }
+  
+  def with(overrides = {})
+    self.merge overrides
+  end
+
+  ##
+  # Returns a Hash with only the pairs identified by +keys+.
+  #
+  #   { :a => 1, :b => 2, :c => 3 }.only(:a)
+  #   => { :a => 1 }
+  
   def only(*keys)
-    self.dup.reject { |k,v|
-      !keys.include? k.to_sym
-    }
+    self.reject { |k,v| !keys.include?(k || k.to_sym) }
   end
 end
