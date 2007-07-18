@@ -155,23 +155,25 @@ module Rools
     # facts can be created in a similar manner to rules
     # all names are converted to strings and downcased.
     # Facts name is equivalent to a Class Name
+    #	
     # ==Example
-    # require 'rools'
-	#
-	# rules = Rools::RuleSet.new do
-	#	
-	#	facts 'Countries' do
-	#		["China", "USSR", "France", "Great Britain", "USA"]
-	#	end
-	#	
-	#	rule 'Is it on Security Council?' do
-	#	  parameter String
-	#		condition { countries.include?(string) }
-	#		consequence { puts "Yes, #{string} is in the country list"}
-	#	end
-	# end
+    #	
+    #     require 'rools'
     #
-	# rules.assert 'France'
+    #     rules = Rools::RuleSet.new do
+    #       
+    #       facts 'Countries' do
+    #       	["China", "USSR", "France", "Great Britain", "USA"]
+    #       end
+    #       
+    #       rule 'Is it on Security Council?' do
+    #         parameter String
+    #       	condition { countries.include?(string) }
+    #       	consequence { puts "Yes, #{string} is in the country list"}
+    #       end
+    #     end
+    #
+    #     rules.assert 'France'
     #
     def facts(name, &b)
       name.gsub!(/:/, '_')

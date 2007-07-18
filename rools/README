@@ -1,4 +1,4 @@
-:nodoc: YOU SHOULD NOT BE VIEWING THIS FILE DIRECTLY. PLEASE USE: gem_server
+
 = Rools -- A pure ruby rules-engine
 
 Rools is a rules engine for abstracting business logic and program-flow. It's ideally suited to processing applications where the business logic undergoes frequent modification.

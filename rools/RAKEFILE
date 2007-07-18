@@ -143,29 +143,31 @@ end
 # Builds the website and uploads it to Rubyforge.org
 task :upload_website => [:doc] do
     sh """
-rsync -azvP0 -e ssh \
+rsync -azv -e ssh \
+--exclude='.svn' --delete-excluded \
 html/ \
-cappelaere@rubyforge.org:/var/www/gforge-projects/rools
+cappelaere@rubyforge.org:/var/www/gforge-projects/rools \
     """
     sh """
-rsync -azvP0 -e ssh \
+rsync -azv -e ssh \
 --exclude='.svn' --delete-excluded \
 doc/res/defs \
-cappelaere@rubyforge.org:/var/www/gforge-projects/rools
+cappelaere@rubyforge.org:/var/www/gforge-projects/rools \
     """
     sh """
-rsync -azvP0 -e ssh \
+rsync -azv -e ssh \
 --exclude='.svn' --delete-excluded \
 examples \
-cappelaere@rubyforge.org:/var/www/gforge-projects/rools
+cappelaere@rubyforge.org:/var/www/gforge-projects/rools \
     """
 end
 
 task :upload_html do
     sh """
 rsync -azv -e ssh \
-html/ \
-cappelaere@rubyforge.org:/var/www/gforge-projects/rools
+--exclude='.svn' \
+html \
+cappelaere@rubyforge.org:/var/www/gforge-projects/rools \
     """
 end
 

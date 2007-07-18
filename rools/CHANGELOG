@@ -5,6 +5,7 @@
     * fixed csv_test
     * added load_xml_rules_as_string and load_rb_rules_as_string
 	* 100% test coverage
+	* Applied doc patch from John Mettraux
 	
 == Rools - 0.2   released 2007/05/22
 	* specifications have been created using RSpec
