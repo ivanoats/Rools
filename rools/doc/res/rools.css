@@ -1,6 +1,6 @@
 /* 
  *
- * site.css for www.OpenWFE.org
+ * site.css for rools.org
  *
  */
 
@@ -197,18 +197,18 @@ img
 
 a:link
 {
-    color:#0080CA;
+    color:#FF0000;
 }
 
 a:visited
 {
-    color: #0083C0;
+    color: #FF0000;
 }
 
 a:active, a:hover
 {
     color:#ffffff;
-    background-color: #0083CA;
+    background-color: #FF0000;
 }
 
 a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover
@@ -226,7 +226,7 @@ a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWin
 a.externalLink:hover
 {
     color:#ffffff;
-    background-color: #0083CA;
+    background-color: #FF0000;
 }
 
 div.clear
@@ -361,12 +361,12 @@ div.clear
 
 #navColumn a:link
 {
-    color:#0080CA;
+    color:#FF0000;
 }
 
 #navColumn a:visited
 {
-    color: #0080CA;
+    color: #FF0000;
 }
 
 #navColumn a:active, #navColumn a:hover
@@ -382,12 +382,19 @@ div.clear
 
 /*------ TEXT ----------------------------------------------------------------*/
 
+h1
+{
+    color: #FF0000;
+    font-weight:700;
+    font-size: x-large;
+}
+
 h2, h3
 {
     padding: 20px 4px 4px 0px;
     border: 0px solid #999;
     border-bottom: 1px dotted #999;
-    color: #0083CA;
+    color: #FF0000;
     /*font-weight:900;*/
     font-weight:500;
     font-size: large;

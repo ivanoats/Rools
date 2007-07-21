@@ -43,13 +43,66 @@ or if you want full coverage analysis with:
 </pre>
 This will generate the "coverage report":./output/coverage/index.html and the "specifcation report":./output/rspec_report.html
 
-<pre>
+h3. Required Gems for Rake
+
 The Rakefile for rools uses 'rote' and several of its filters to produce documentation. To avoid errors or
 incorrect markup processing, please install the following gems:
-    gem install redcloth
-    gem install bluecloth
-    gem install tidy
-    gem install syntax
-    gem install rote
+*   gem install redcloth
+*   gem install syntax
+*   gem install rote
+*   gem install rspec
+*   gem install rcov
+
+h4. Tool versions
+
+If you have problems running tests or specs, please check your configuration
+*  ruby --version
+*  rake --version
+*  rails --version
+*  gem list rspec
+*  gem list rubygems-update
+*  gem list rote
+*  gem list redcloth
+*  gem list syntax
+*  gem list rcov
+
+Here is my current output:
+<pre>
+ruby 1.8.6 (2007-03-13 patchlevel 0) [powerpc-darwin8.9.0]
+rake, version 0.7.2
+Rails 1.2.3
+
+*** LOCAL GEMS ***
+
+rspec (1.0.0)
+    RSpec-1.0.0 (r1986) - BDD for Ruby http://rspec.rubyforge.org/
+
+*** LOCAL GEMS ***
+
+rubygems-update (0.9.2)
+    RubyGems Update GEM
+
+*** LOCAL GEMS ***
+
+rote (0.3.4)
+    Adds template-based doc support to Rake.
+
+*** LOCAL GEMS ***
+
+RedCloth (3.0.4)
+    RedCloth is a module for using Textile and Markdown in Ruby. Textile
+    and Markdown are text formats.  A very simple text format. Another
+    stab at making readable text that can be converted to HTML.
+
+*** LOCAL GEMS ***
+
+syntax (1.0.0)
+    Syntax is Ruby library for performing simple syntax highlighting.
+
+*** LOCAL GEMS ***
+
+rcov (0.8.0.2)
+    Code coverage analysis tool for Ruby
 </pre>
+
 

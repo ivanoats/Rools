@@ -17,12 +17,22 @@ To "quickly get started":quickstart.html.
 
 h2. Getting it
 
-You can "get":/download.html it as a gem or check out the source to build a fresh gem or use it directly.
+You can "get":/download.html it as a gem or check out the source to build a fresh gem or use it directly.  
+Note: If you decide to build you own gem, please make sure to read the "Developer documentation":dev0.html and required gems.
 
 h2. Using it
 
 There are a few "examples":/test/ on how to use Rools.
 
+h2. Need Support
+
+You can try the "Rools User Group":http://groups.google.com/group/rools-users first, but make sure you read this first:
+*  "How To Ask Questions The Smart Way":http://www.catb.org/~esr/faqs/smart-questions.html
+*  "How to Report Bugs Effectively":http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
+    
+For commercial and dedicated support or sponsored enhancements (demand-driven development), please "email.":mailto:pat@vightel.com
+
+     
 h2. Test Coverage
 
 Current Specification/Test Coverage is now: <a href''><%= Rools::ROOLS_COVERAGE %>%</a> using "RSpec":http://rspec.rubyforge.org/ (check svn)
