@@ -27,7 +27,15 @@ You can run tests one at a time with
 
 </pre>
 
-h3. Running the Specification Tests
+h3: Running the Specification Tests Automatically
+
+This will run the tests everytime a file is changed.  You can also install Growl/growlnotify to get alerted if a test fails.
+For more information, please check: "Getting started with Autotest - Continuous Testing":http://ph7spot.com/articles/getting_started_with_autotest
+<pre>
+    rake spec:autotest
+</pre>
+
+h3. Running the Specification Tests Manually
 
 Rools is using "RSpec":http://rspec.rubyforge.org/
 You need to install the rspec gem on your system with a few others such as "rcov":http://rubyforge.org/projects/rcov/
@@ -52,6 +60,7 @@ incorrect markup processing, please install the following gems:
 *   gem install rote
 *   gem install rspec
 *   gem install rcov
+*	gem install ZenTest
 
 h4. Tool versions
 
@@ -65,6 +74,7 @@ If you have problems running tests or specs, please check your configuration
 *  gem list redcloth
 *  gem list syntax
 *  gem list rcov
+*  gem list ZenTest
 
 Here is my current output:
 <pre>
@@ -74,8 +84,8 @@ Rails 1.2.3
 
 *** LOCAL GEMS ***
 
-rspec (1.0.0)
-    RSpec-1.0.0 (r1986) - BDD for Ruby http://rspec.rubyforge.org/
+rspec (1.0.5, 1.0.0)
+    RSpec-1.0.5 (r2081) - BDD for Ruby http://rspec.rubyforge.org/
 
 *** LOCAL GEMS ***
 
@@ -105,4 +115,9 @@ rcov (0.8.0.2)
     Code coverage analysis tool for Ruby
 </pre>
 
+*** LOCAL GEMS ***
+
+ZenTest (3.6.0)
+    ZenTest provides 4 different tools and 1 library: zentest,
+    unit_diff, autotest, multiruby, and Test::Rails.
 

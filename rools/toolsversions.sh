@@ -7,4 +7,4 @@ gem list rote
 gem list redcloth
 gem list syntax
 gem list rcov
-
+gem list ZenTest

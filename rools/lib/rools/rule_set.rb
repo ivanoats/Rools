@@ -9,7 +9,7 @@ require 'rexml/document'
 module Rools
   class RuleSet < Base
     attr_reader :num_executed, :num_evaluated, :facts, :status
-    
+     
     PASS = :pass
     FAIL = :fail
     UNDETERMINED = :undetermined

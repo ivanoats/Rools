@@ -1,0 +1,4 @@
+require 'autotest/growl'
+require 'autotest/redgreen'
+require 'autotest/timestamp'
+

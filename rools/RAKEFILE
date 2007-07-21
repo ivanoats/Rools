@@ -191,20 +191,20 @@ end
 # Check Rools specifications using rspec
 Spec::Rake::SpecTask.new('specs') do |t|
   t.spec_opts = ['--format', 'specdoc']
-  t.spec_files = FileList['specs/**/*.rb']
+  t.spec_files = FileList['spec/**/*.rb']
 end
 
 Spec::Rake::SpecTask.new('spec_coverage') do |t|
   t.spec_opts = ['--format', 'specdoc']
-  t.spec_files = FileList['specs/**/*.rb']
+  t.spec_files = FileList['spec/**/*.rb']
   t.rcov = true
   t.rcov_dir = './html/output/coverage'
-  t.rcov_opts = ['--exclude', 'specs']
+  t.rcov_opts = ['--exclude', 'spec']
 end
 
 desc "Run all specs and store html output in html/output/report.html"
 Spec::Rake::SpecTask.new('spec_html') do |t|
-  t.spec_files = FileList['specs/**/*_spec.rb']
+  t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = ['--format html:html/output/rspec_report.html','--backtrace']
 end
 
@@ -214,3 +214,10 @@ RCov::VerifyTask.new(:verify_rcov => :spec_coverage) do |t|
 end
 
 task :rcov => [:verify_rcov, :spec_html]
+
+namespace :spec do
+  task :autotest do
+    require './spec/rspec_autotest'
+    RspecAutotest.run
+  end
+end
