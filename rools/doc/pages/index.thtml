@@ -35,6 +35,7 @@ For commercial and dedicated support or sponsored enhancements (demand-driven de
      
 h2. Test Coverage
 
+AutoTest is now being used to continuously run the tests on any change. 
 Current Specification/Test Coverage is now: <a href''><%= Rools::ROOLS_COVERAGE %>%</a> using "RSpec":http://rspec.rubyforge.org/ (check svn)
 
 * Specification report is "here":./output/rspec_report.html

@@ -27,7 +27,7 @@ You can run tests one at a time with
 
 </pre>
 
-h3: Running the Specification Tests Automatically
+h3. Running the Specification Tests Automatically
 
 This will run the tests everytime a file is changed.  You can also install Growl/growlnotify to get alerted if a test fails.
 For more information, please check: "Getting started with Autotest - Continuous Testing":http://ph7spot.com/articles/getting_started_with_autotest
@@ -113,11 +113,10 @@ syntax (1.0.0)
 
 rcov (0.8.0.2)
     Code coverage analysis tool for Ruby
-</pre>
 
 *** LOCAL GEMS ***
 
 ZenTest (3.6.0)
     ZenTest provides 4 different tools and 1 library: zentest,
     unit_diff, autotest, multiruby, and Test::Rails.
-
+</pre>
