@@ -104,7 +104,7 @@ describe "Empty RuleSet" do
   
   it "should generate an RuleLoadingError if loading a bad ruby file" do
     lambda {
-      @ruleset.load_xml( "test/data/bad_hello.rb")
+      @ruleset.load_rb( "test/data/bad_hello.rb")
     }.should raise_error( Rools::RuleLoadingError)
   end
   
