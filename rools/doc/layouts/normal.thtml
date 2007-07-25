@@ -1,5 +1,5 @@
 <% 
-
+  
 $MENU = [
     [ 'Index', '/index.html' ],
     [ 'License', '/license.html' ],

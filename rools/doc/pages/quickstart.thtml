@@ -9,7 +9,7 @@ make sure you are using Ruby 1.8.5 at least
 
 h3. your first Rools powered program
 
-edit a file named '"rools.rb":/examples/rools.rb'
+edit a file named '"hello_rools.rb":./hello_rools.rb'
 
     
 #:code#ruby#
@@ -31,7 +31,7 @@ require 'rools'
 run that file
 
 <pre>
-    $ ruby rools.rb
+    $ ruby hello_rools.rb
 </pre>
 
 
