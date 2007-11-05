@@ -41,4 +41,17 @@ describe Rools::Facts do
     fact = ruleset.get_facts["facttest__testclass"]
     fact.name.should eql("facttest__testclass")
   end
+  
+  it "could have only one entry" do
+    p = Proc.new { ["A"] }
+    @facts = Rools::Facts.new( nil, "Grade", p)
+    @facts.value.should eql("A")
+  end
+  
+  it "could contain a range" do
+    p = Proc.new { (1..10) }
+    @facts = Rools::Facts.new( nil, "Range", p)
+    @facts.value.should eql(1..10)
+  end
+  
 end

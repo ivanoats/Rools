@@ -14,13 +14,11 @@ require 'logger'
     
 class FactsTest < Test::Unit::TestCase
   def setup
-    #Rools::Base.logger = Logger.new(STDOUT)
+    Rools::Base.logger = Logger.new(STDOUT)
   end
   
-  def test_fact
-  
-    require 'rools'
-	
+  def test_facts
+  	
 	rules = Rools::RuleSet.new do
 		
 		facts 'Countries' do
@@ -40,4 +38,44 @@ class FactsTest < Test::Unit::TestCase
 	assert rules.num_evaluated == 1	
   end
 	
+  def test_one_fact
+    rules = Rools::RuleSet.new do
+		
+		facts 'Actor' do
+			["Reagan"]
+		end
+		
+		rule 'Is it?' do
+		  parameter String
+			condition { actor == string}
+			consequence { puts "Yes, #{string} is the famous actor"}
+		end
+	end
+	
+	status = rules.assert 'Reagan'
+	assert status == :pass
+	assert rules.num_executed == 1
+	assert rules.num_evaluated == 1	
+  end
+  
+  def test_range_fact
+    rules = Rools::RuleSet.new do
+		
+		facts 'InvalidRange' do
+			(9..12)
+		end
+		
+		rule 'Invalid Number' do
+		  parameter Fixnum
+			condition { invalidrange.member?(fixnum) }
+			consequence { puts "#{fixnum} is invalid"}
+		end
+	end
+	
+	status = rules.assert 10
+	assert status == :pass
+	assert rules.num_executed == 1
+	assert rules.num_evaluated == 1	
+  end
+  
 end

@@ -1,5 +1,9 @@
 = Rools CHANGELOG
 
+== Rools - 0.4 released 2007/11/05
+	* facts can include a range (Grant Mcinnes idea)
+	* Fixed examples on website
+	
 == Rools - 0.3
 	* facts can now have a defined namespace
     * fixed csv_test
