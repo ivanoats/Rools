@@ -16,7 +16,7 @@ module Rools
     end
     
     def value
-      if @fact_value.size == 1
+      if @fact_value.respond_to?("size") && @fact_value.size == 1
         @fact_value[0]
       else
         @fact_value
