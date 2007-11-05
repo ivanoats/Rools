@@ -8,10 +8,10 @@ They also recommend you to look at the case study
 
 Here are some examples that have been adapted for Rools:
 
-* "greeting.xls":../test/data/greetings.xls
-* "salutations.xls":../test/data/salutations.xls
-* "vacation.xls":../test/data/vacation.xls
-* "loan.xls":../test/data/loan.xls
+* "greeting.xls":./examples/greetings.xls
+* "salutations.xls":./examples/salutations.xls
+* "vacation.xls":./examples/vacation.xls
+* "loan.xls":./examples/loan.xls
 
 These examples have been created using Excel on the Macintosh.
 The files are then saved as CSV files.  Make sure that no extraneous 
