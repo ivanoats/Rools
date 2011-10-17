@@ -9,7 +9,7 @@ module Rools
     # Determines whether a method is vital to the functionality
     # of the class.
     def self.is_vital(method)
-      return method =~ /__(.+)__|method_missing|instance_eval/
+      return method =~ /__(.+)__|method_missing|instance_eval|object_id/
     end
 
     # Removes unnecessary methods from the class to minimize
