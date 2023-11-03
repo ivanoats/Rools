@@ -1,14 +1,14 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    RedCloth (4.3.2)
+    RedCloth (4.3.3)
     ZenTest (3.6.1)
       hoe (>= 1.2.2)
     hoe (3.23.0)
       rake (>= 0.8, < 15.0)
     rake (12.3.3)
     rcov (0.9.11)
-    rote (0.3.6)
+    rote (0.4.0)
       RedCloth (> 3.0)
       rake (> 0.6)
     rspec (1.0.8)
@@ -18,11 +18,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RedCloth (~> 4.3.0)
+  RedCloth (~> 4.3.3)
   ZenTest (~> 3.6.0)
   rake (= 12.3.3)
   rcov (~> 0.8)
-  rote (~> 0.3.6)
+  rote (~> 0.4.0)
   rspec (~> 1.0.5)
   syntax (~> 1.0.0)
 
